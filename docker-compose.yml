@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+# Mongo DB services
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes: 
+      - mongo_db:/data/db
+#node API service
+  api: 
+    build: .
+    ports:
+      - 8586:8080
+    environment:
+      SECRET_KEY: 'J|},Z.yDQp~i[[@|~.t4_(0w0(Y>OE'
+      REFRESH_SECRET_KEY: 'KeUhjZxP+371£nUU7.-zA^25|@4]+*-'
+      PORT: 8080
+      MONGODB_URI: mongodb://mongo_db:27017/local
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}

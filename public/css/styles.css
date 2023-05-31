@@ -1,0 +1,45 @@
+/* styles.css */
+h1 {
+    color: #161616;
+    text-align: center;
+  }
+  
+  .form-cont{
+    display: flex;
+    justify-content: center;
+  }
+  form {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgb(47, 56, 79);
+    color: #161616;
+  }
+  
+  input, button {
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 20px;
+    font-size: medium;
+  }
+  button{
+    margin-top: 20px;
+    margin-left: 135px;
+  }
+  .hidden{
+    display: none
+  }
+  #alert{
+    color: red;
+  }
+
+ header{
+    background-image: url(../img/headbg.png);
+ }
+ header h1{
+    margin-top: -20px;
+ }
+ header h2{
+    margin-top: 10px;
+ }
