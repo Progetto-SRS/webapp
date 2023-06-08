@@ -1,0 +1,210 @@
+.hidden{
+    display:none;
+}
+.sites-container {
+    display: grid;
+   grid-template-columns: 280px 280px 280px;
+   border-top:solid 2px darkgrey;
+   justify-content: space-around;
+   grid-auto-rows: 190px;
+   
+    padding-top: 20px;
+    
+    height: 100%;
+  }
+  .grid-item{
+          background-color:#21262d;
+          border: solid 2px darkgrey;
+          border-radius: 12px;
+          margin: 10px;
+          position: relative;
+          margin-top:25px;
+  }
+  .grid-item p{
+    padding-left: 10px;
+    color:#c6cdd5;
+  }
+  .grid-item .hidden{
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 3.3s ease-in-out, opacity 3.3s ease-in-out;
+  }
+  .grid-item .visible{
+    opacity: 1;
+    max-height: 100px;
+    padding-left: 10px;
+    color:#c6cdd5;
+  }
+  .temp-name{
+          padding-left: 10px;
+          color:#c6cdd5;
+  }
+  p{
+          font-size:22px;
+          color: lightgrey;
+  }
+  h1{
+          font-size:32px;
+          color: lightgrey;
+  }
+  body{
+  background-color:#021117;
+  margin: 10px 20px;
+  min-height: 100%;
+  }
+  html {
+    height: 100%;
+  }
+  
+  section{
+  
+  margin:40px;
+  height: 100%;
+  }
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  .modal-content {
+    background-color: #161b22;
+    margin: 13% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  div.modal-content label{
+  font-size:18px;
+  color:lightgrey;
+  }
+
+  #sitename{
+    color:lightgrey;
+    background-color:#21262d;
+    padding:7px;
+    margin-left:25px;
+    border-radius: 30px;
+    font-family: 'Source Sans Pro', sans-serif;
+    width:200px;
+    font-size:18px;
+    text-align: center;
+  }
+  #submitButton{
+    border-radius: 20px 10px;
+    background-color:#212833;
+    color:lightgrey;
+    font-family: 'Source Sans Pro', sans-serif;
+    padding:7px;
+
+  }
+  
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px 21262d !important;
+}
+  select#type {
+          color:lightgrey;
+          background-color:#21262d;
+          padding:7px;
+          margin-left:25px;
+          border-radius: 30px;
+          font-family: 'Source Sans Pro', sans-serif;
+          width:150px;
+          font-size:18px;
+  
+  
+  }
+  .template-cont{
+          display: grid;
+        grid-template-columns: 200px 200px 200px;
+   
+   justify-content: space-around;
+   grid-auto-rows: 160px;
+   
+    padding-top: 20px;
+    
+    height: 100%;
+  
+  }
+  .setting-cont{
+   margin:40px 20px;
+   color : lightgrey;
+  }
+  .setting-input{
+          color:lightgrey;
+          background-color:#21262d;
+          padding:7px;
+          margin-left:15px;
+          margin-right:15px;
+          border-radius: 30px;
+          font-family: 'Source Sans Pro', sans-serif;
+          width:40px;
+          font-size:18px;
+          text-align: center;
+  
+  }
+  @media screen and (max-width: 950px) {
+    .sites-container{
+     grid-template-columns: 220px 220px 220px; 
+     grid-auto-rows: 150px;
+  }
+  p{
+          font-size:21px;
+  }
+  }
+  @media screen and (max-width: 800px) {
+    .template-cont{
+     grid-template-columns: 220px 220px; 
+    }
+   
+  }
+  @media screen and (max-width: 700px) {
+    .sites-container{
+     grid-template-columns: 220px 220px; 
+    }
+    p{
+          font-size:19px;
+    }
+    .template-cont{
+     grid-template-columns: 190px 190px; 
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .sites-container{
+     grid-template-columns: 240px; 
+    }
+    .template-cont{
+     grid-template-columns: 220px ; 
+    }
+    select#type {
+     width:100px;
+    }
+    .setting-input div.modal-content label{
+    font-size:14px;
+    }
+  }
+  
+  

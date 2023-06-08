@@ -46,12 +46,12 @@ const login = (req, res, next) =>{
                 if(result){
                     let token = jwt.sign({name :user.name}, process.env.SECRET_KEY, {expiresIn: '1h'})
                     let refreshToken = jwt.sign({name :user.name}, process.env.REFRESH_SECRET_KEY, {expiresIn: '48h'})
-
                     res.status(200).json({
                         message:'login succesfully',
                         token,
                         refreshToken
                     })
+ 
                 }else{
                     res.status(200).json({
                         message: 'Password does not matched'
