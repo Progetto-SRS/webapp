@@ -87,7 +87,15 @@ loginForm.addEventListener('submit', async (e) => {
       });
       
       const data = await response.json();
-      console.log(data); // Gestisci la risposta dal backend come preferisci
+      if (data.message == 'login succesfully'){
+        const token = data.token;
+        const refreshToken = data.refreshToken;
+
+        document.cookie = `token=${token}; secure; SameSite=Strict`;
+        document.cookie = `refreshToken=${refreshToken}; secure; SameSite=Strict`;
+        console.log(data); // Gestisci la risposta dal backend come preferisci
+        window.location.href='/user_env'
+      }
     } catch (error) {
       console.error(error);
     }
