@@ -28,6 +28,12 @@ loginForm.addEventListener('submit', async (e) => {
         console.log(data); // Gestisci la risposta dal backend come preferisci
         window.location.href='/user_env'
       }
+      else {
+        const loginAlert = document.getElementById("login-alert")
+        loginAlert.classList.remove('hidden')
+        emailLoginInput.style.border = "2px solid red"
+        passwordLoginInput.style.border = "2px solid red"
+      }
     } catch (error) {
       console.error(error);
     }
