@@ -2,6 +2,16 @@ const registerForm = document.getElementById('registerForm');
 
 const alert = document.getElementById('alert');
 
+function togglePasswordVisibility() {
+  var passwordInput = document.getElementById("passwordInput");
+  if (passwordInput.type === "text") {
+    passwordInput.type = "password";
+  } else {
+    passwordInput.type = "text";
+  }
+}
+
+
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   
@@ -20,16 +30,8 @@ registerForm.addEventListener('submit', async (e) => {
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&(){}:;<>,.?_+-=|*]).{8,}$/;
 
-
-  //Controllo campi vuoti
-  if(username.length == 0 || email.length== 0 || phone.length == 0 || password.length == 0 || confPassword.length == 0){
-    alert.classList.remove('hidden');
-    alert.innerHTML = "Please, fill out all the empty fields";
-    return;
-  }
-
   // Controllo sul formato dell'email
-  
+
   if (!email.match(emailRegex)) {
     // Mostra un messaggio di errore
     alert.classList.remove('hidden');
@@ -39,11 +41,6 @@ registerForm.addEventListener('submit', async (e) => {
 
   // Controllo sulla password
   
-  if (!password.match(passwordRegex)) {
-    alert.classList.remove('hidden');
-    alert.innerHTML = "Password must contain at least 8 characters, one letter, one number and one symbol";
-    return;
-  }
   if(password != confPassword){
     alert.classList.remove('hidden');
     alert.innerHTML = "Password are not the same";
@@ -67,3 +64,5 @@ registerForm.addEventListener('submit', async (e) => {
         console.error(error);
     }
 });
+
+
