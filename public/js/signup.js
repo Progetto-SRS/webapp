@@ -1,7 +1,6 @@
 const registerForm = document.getElementById('registerForm');
 
 const alert = document.getElementById('alert');
-
 function togglePasswordVisibility() {
   var passwordInput = document.getElementById("passwordInput");
   if (passwordInput.type === "text") {
@@ -11,6 +10,69 @@ function togglePasswordVisibility() {
   }
 }
 
+const imgCont = document.getElementById("img-sp-cont")
+imgCont.addEventListener("click",togglePasswordVisibility);
+
+const passwordInput = document.getElementById('passwordInput');
+const confPasswordInput = document.getElementById('confPasswordInput');
+var requirementsList = document.getElementById("requirementsList");
+
+
+var requirements = [
+  {
+    text: "Password must contain at least 8 characters.",
+    check: function(password) {
+      return password.length >= 8;
+    }
+  },
+  {
+    text: "Password must contain at least one letter.",
+    check: function(password) {
+      return /[a-zA-Z]/.test(password);
+    }
+  },
+  {
+    text: "Password must contain at least one digit.",
+    check: function(password) {
+      return /[0-9]/.test(password);
+    }
+  },
+  {
+    text: "Password must contain at least one special character (!@#$%^&(){}:;<>,.?_+\-=|)",
+    check: function(password) {
+      return /[!@#$%^&(){}:;<>,.?_+\-=|]/.test(password);
+    }
+  },
+  {
+    text: "The two password must be the same",
+    check: function(password) {
+      return password === confPasswordInput.value; ;
+    }
+  }
+];
+  requirements.forEach(function(requirement) {
+    var li = document.createElement("li");
+    li.textContent = requirement.text;
+    requirementsList.appendChild(li);
+  });
+  confPasswordInput.addEventListener("input", updateRequirements);
+  passwordInput.addEventListener("input",updateRequirements);
+   function updateRequirements() {
+    var password = passwordInput.value;
+
+    // Controlla i requisiti della password e aggiorna lo stile dei punti elenco
+    requirements.forEach(function(requirement, index) {
+      var li = requirementsList.children[index];
+
+      if (requirement.check(password)) {
+        li.classList.remove("red");
+        li.classList.add("green");
+      } else {
+        li.classList.remove("green");
+        li.classList.add("red");
+      }
+    });
+  };
 
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -18,8 +80,8 @@ registerForm.addEventListener('submit', async (e) => {
   const usernameInput = document.getElementById('usernameInput');
   const emailInput = document.getElementById('emailInput');
   const phoneInput = document.getElementById('phoneInput');
-  const passwordInput = document.getElementById('passwordInput');
-  const confPasswordInput = document.getElementById('confPasswordInput');
+  
+
 
   const username = usernameInput.value;
   const email = emailInput.value;
@@ -28,8 +90,9 @@ registerForm.addEventListener('submit', async (e) => {
   const confPassword = confPasswordInput.value;
 
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&(){}:;<>,.?_+-=|*]).{8,}$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&(){}:;<>,.?_+\-=|]).{8,}/
 
+  
   // Controllo sul formato dell'email
 
   if (!email.match(emailRegex)) {
@@ -40,10 +103,14 @@ registerForm.addEventListener('submit', async (e) => {
   }
 
   // Controllo sulla password
-  
+  if (!password.match(passwordRegex)) {
+    passwordInput.style.border = "1px solid red"
+    confPasswordInput.style.border = "1px solid red"
+    return;
+  }
   if(password != confPassword){
-    alert.classList.remove('hidden');
-    alert.innerHTML = "Password are not the same";
+    passwordInput.style.border = "1px solid red"
+    confPasswordInput.style.border = "1px solid red"
     return;
   }
 
