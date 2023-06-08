@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Mockup WSG Environment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/user_env.css">
+    <script src="../js/user_env.js"></script> 
+</head>
+
+<body style ="font-family: 'Source Sans Pro', sans-serif;">
+    <h1  id="user-title">Hi </h1>
+    <p>Here you will find your mockup sites. You can generate a new one or edit/remove the previous. </p>
+    
+    <section>
+    
+    <div class="sites-container">
+    <div id ="add-pnl" class ="modal" style ="display:none;">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 style="border-bottom: solid 2px #c6cdd5; padding-bottom:10px; color:lightgrey;  ">Create a new website:</h3>
+    
+    <form id = "addsite-form"style="margin: 30px 20px;">
+    
+        <label for = "sitename">Website name: </label>
+        <input type="text" id="sitename" name="sitename" autocomplete="off"/><br>
+        <div id="error" style="color: red; display: none;">Il campo è vuoto</div>
+
+        <div style="height:30px"></div>
+
+        <label for="type">Choose a type:</label>
+        
+        <select name="type" id="type" required>
+        <option ></option>
+        <option value="news">News</option>
+        <option value="blog">Blog</option>
+        <option value="e-commerce">E-commerce</option>
+        <option value="portfolio">Portfolio</option>
+        </select><br>
+        <div style="height:30px"></div>
+        <label >Choose a template:</label>
+        <div class="template-cont" id="template-cont">
+        
+                
+        </div>
+        <div id="error2" style="color: red; display: none;">Seleziona un template</div>
+    
+        <div style="height:30px"></div>
+        <label >Setting parameters:</label>
+        <div class="setting-cont" id="setting-cont">
+        
+                
+        </div>
+        <div style = "display:flex;justify-content: end;">
+        <button type="submit" id="submitButton" style="opacity: 0.5;pointer-events: none;">GENERATE</button>
+        </div>
+    
+    </form>
+    
+    
+    </div>
+    </div>
+    
+      <div class="grid-item " id = "add-btn"><img src="./img/add.png" alt="+" width="42" height="42" ></div>
+    </div>
+    
+    </section>
+</body>
+</html>
