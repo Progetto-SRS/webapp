@@ -27,24 +27,29 @@
                     <form id="registerForm">
                     
                     <div class="form-outline mb-4">
-                        <input type="text" id="usernameInput" class="form-control form-control-lg" placeholder="Username" style="font-size:large; width: 50%;"/>
+                        <input type="text" id="usernameInput" class="form-control form-control-lg" placeholder="Username" style="font-size:large; width: 45%;" required/>
                     </div>
 
                     <div class="form-outline mb-4" style="display: flex; justify-content: space-between;">
-                        <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email" style="font-size: large; width: 60%;"/>
-                        <input type="text" id="phoneInput" class="form-control form-control-lg" placeholder="Phone" style="font-size: large; width: 30%;"/>
+                      <input type="text" id="nameInput" class="form-control form-control-lg" placeholder="Name" style="font-size: large; width: 45%;" required/>
+                      <input type="text" id="surnameInput" class="form-control form-control-lg" placeholder="Surname" style="font-size: large; width: 45%;" required/>
+                  </div>
+
+                    <div class="form-outline mb-4" style="display: flex; justify-content: space-between;">
+                        <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email" style="font-size: large; width: 45%;" required/>
+                        <input type="text" id="phoneInput" class="form-control form-control-lg" placeholder="Phone" style="font-size: large; width: 45%;" required/>
                     </div>
 
     
-                    <div class="form-outline mb-4">
-                        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" style="font-size: large; width: 50%;"/>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                        <input type="password" id="confPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" style="font-size: large; width: 50%;"/>
+                    <div class="form-outline mb-4" style="display: flex; justify-content: space-between;">
+                        <input type="password" id="passwordInput" pattern="/^(?=.\d)(?=.[a-zA-Z])(?=.[!@#$%^&(){}:;<>,.?_+-=|]).{8,}$/" title="La password deve contenere almeno 8 caratteri, almeno una lettera e un numero" class="form-control form-control-lg" placeholder="Password" style="font-size: large; width: 45%;" required/>
+                        <button onclick="togglePasswordVisibility()"><img src="./img/2540381-200.png" width="20" height="15"></button>
+                        <input type="password" id="confPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" style="font-size: large; width: 45%;" required/>
                     </div>
                     
                     <div id = "alert" class = "hidden"></div>
+
+                    <p>Already have an account? <a href="/login">Login here!</a></p>
                     
                     <button class="btn btn-primary btn-lg btn-block" type="submit" style = "font-family: 'Rubik', sans-serif; font-size: medium;">SUBMIT</button>
                     </form>
@@ -63,5 +68,6 @@
         </div>
       </section>
     <script src="js/signup.js"></script>
+
 </body>
 </html>
