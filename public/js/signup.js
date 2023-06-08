@@ -50,19 +50,82 @@ registerForm.addEventListener('submit', async (e) => {
     try {
         alert.classList.add('hidden');
         alert.innerHTML = "";
-        const response = await fetch('api/register', {
+        const registerSuccess = await registerUser(username, email,phone, password);
+        
+
+        if (registerSuccess) {
+          setTimeout(async () => {
+            const loginSuccess = await loginUser(username, password);
+            if (loginSuccess) {
+              window.location.href = '/user_env';
+            }
+          }, 1000); 
+        }
+    } catch (error) {
+      console.error(error);
+    }
+        
+});
+
+function registerUser(username, email,phone, password) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch('api/register', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ name: username, email, phone, password })
-        });
+      });
 
-        const data = await response.json();
-        console.log(data); // Gestisci la risposta dal backend come preferisci
+      const data = await response.json();
+      if (data.message === 'User added succesfully') {
+        resolve(true);
+      } else {
+        reject(new Error('Registration error'));
+      }
     } catch (error) {
-        console.error(error);
+      reject(error);
     }
-});
+  });
+}
+
+function loginUser(username, password) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch('api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        if (data.message === 'login succesfully') {
+          const token = data.token;
+          const refreshToken = data.refreshToken;
+
+          document.cookie = `token=${token}; secure; SameSite=Strict`;
+          document.cookie = `refreshToken=${refreshToken}; secure; SameSite=Strict`;
+
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      } else {
+        reject(new Error('Login request failed'));
+      }
+    } catch (error) {
+      reject(error);
+    }
+
+  });
+}
+
+
+
 
 
