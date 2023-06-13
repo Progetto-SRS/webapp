@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My E-commerce</title>
+  <link rel="stylesheet" href="e.css">
+  <link rel="stylesheet" href="./slick/slick.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comme:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>My Shop online</h1>
+      <nav>
+        <ul>
+          <li><a href="#home-cont">Home</a></li>
+          <li><a href="./categories.html">Product</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./cart.html">Cart <img src = cart.png width="25px" height="23px" style="margin-bottom: -5px;margin-left: 2px;"></a></li>
+          <li>
+            <form id="search-form" action="#" method="GET">
+              <input type="text" id="search-input" placeholder="Search product" />
+              <button type="submit">Search</button>
+            </form>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div  id ="home-cont">
+      <!-- Qui puoi inserire il contenuto principale del tuo sito web di e-commerce -->
+      <div id="main-img-cont">
+        <div>
+          <h1 >Welcome to Your One-Stop Home Shopping Destination!</h1>
+          <h2>Discover Endless Possibilities for Stylish Living and Functional Spaces</h2>
+          <button id="shop-btn"><a href="#prod-cont">SHOP NOW</a></button>
+        </div>
+      </div>
+    </div>
+
+    <h1 id="section-title" >Bestsellers</h1>
+    <div class="container" id ="prod-cont">
+      <!--<div class="product-carousel">-->
+        <!-- Inserisci qui i tuoi prodotti -->
+        <div class="product">
+          <div id="prod-img"></div>
+          <h2>Nome del Prodotto</h2>
+          <p>Descrizione del prodotto.</p>
+          <p class="price">€99.99</p>
+          <button>Add to Cart</button>
+        </div>
+  
+        <div class="product">
+          <div id="prod-img"></div>
+          <h2>Nome del Prodotto</h2>
+          <p>Descrizione del prodotto.</p>
+          <p class="price">€49.00</p>
+          <button>Add to Cart</button>
+        </div>
+  
+        <div class="product">
+          <div id="prod-img"></div>
+          <h2>Nome del Prodotto</h2>
+          <p>Descrizione del prodotto.</p>
+          <p class="price">€139.99</p>
+          <button>Add to Cart</button>
+        </div>
+      <!--</div>-->
+      
+      <!-- Qui puoi inserire il contenuto principale del tuo sito web di e-commerce -->
+      
+    </div>
+
+    <h1 id='section-title'>New arrivals</h1>
+    <div class="container" id ="prod-cont">
+      
+      <!-- Qui puoi inserire il contenuto principale del tuo sito web di e-commerce -->
+      <div class="product">
+        <div id="prod-img"></div>
+        <h2>Nome del Prodotto</h2>
+        <p>Descrizione del prodotto.</p>
+        <p class="price">€19.99</p>
+        <button>Add to Cart</button>
+      </div>
+
+      <div class="product">
+        <div id="prod-img"></div>
+        <h2>Nome del Prodotto</h2>
+        <p>Descrizione del prodotto.</p>
+        <p class="price">€30.00</p>
+        <button>Add to Cart</button>
+      </div>
+
+      <div class="product">
+        <div id="prod-img"></div>
+        <h2>Nome del Prodotto</h2>
+        <p>Descrizione del prodotto.</p>
+        <p class="price">€2.99</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 My E-Commerce. All rights reserved.</p>
+    </div>
+  </footer>
+  <!--
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="./slick/slick.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.product-carousel').slick({
+        dots: true, // Mostra i punti di navigazione
+        infinite: true, // Abilita lo scorrimento infinito
+        slidesToShow: 3, // Numero di prodotti da visualizzare contemporaneamente
+        slidesToScroll: 1, // Numero di prodotti da scorrere ad ogni volta
+        responsive: [
+          {
+            breakpoint: 768, // Modifica le impostazioni per i dispositivi con larghezza <= 768px
+            settings: {
+              slidesToShow: 2
+            }
+          },
+          {
+            breakpoint: 480, // Modifica le impostazioni per i dispositivi con larghezza <= 480px
+            settings: {
+              slidesToShow: 1
+            }
+          }
+        ]
+      });
+    });
+  </script>
+  -->
+</body>
+
+
+
+</html>
