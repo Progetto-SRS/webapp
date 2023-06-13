@@ -33,10 +33,11 @@ const generate= (req, res, next) =>{
                 //Creazione cartella con sito
                 const siteDirectory = path.resolve(__dirname, '..', 'sites', collection._id.toString());
                 fs.mkdirSyncy(siteDirectory,{ recursive: true })
+                console.log('Cartella creata:', siteDirectory);
 
                 const templateDirectory = path.resolve(__dirname, '..', 'templates', collection.template); // Directory path for the template folder
                 fsExtra.copySync(templateDirectory, siteDirectory);
-
+                console.log('File copiati da:', templateDirectory);
                 
                 //GENERAZIONE --TODO
 
@@ -74,6 +75,7 @@ const generate= (req, res, next) =>{
                 })
             })
             .catch(error =>{
+                console.error('Si è verificato un errore durante il salvataggio della collezione:', error);
                 res.json({
                     message: 'An error occurred',
                     error
