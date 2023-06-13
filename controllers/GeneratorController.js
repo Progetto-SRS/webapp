@@ -65,7 +65,7 @@ const generate= async(req, res, next) =>{
                                 // Se tutti i file sono stati caricati, esegui res.json()
                                     console.log('Caricamento completato per tutti i file.');
                                     res.json({
-                                        message: 'Collection added successfully',
+                                        message: 'Collection added successfully'
                                     });
                                 }
                             })

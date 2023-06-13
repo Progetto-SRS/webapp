@@ -326,7 +326,7 @@ window.onload = function() {
             });
                
             const data = await response.json();
-            if (data.message === 'Collection added succesfully'){
+            if (data.message === 'Collection added successfully'){
                 console.log('Refresh in corso...');
                 setTimeout(() => {
                     window.location.reload(true);
