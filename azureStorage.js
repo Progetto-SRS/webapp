@@ -10,7 +10,7 @@ async function uploadToAzureStorage(storageAccountName, containerName, localFile
 
   // Connessione all'account di Azure Storage
   const credential = new DefaultAzureCredential();
-  const blobServiceClient = BlobServiceClient("https://%22+storageaccountname+%22.blob.core.windows.net/", credential);
+  const blobServiceClient = new BlobServiceClient("https://"+storageaccountname+".blob.core.windows.net/", credential);
 
   // Ottenere il riferimento al contenitore (se non esiste, verrà creato)
   const containerClient = blobServiceClient.getContainerClient(containerName);
