@@ -327,8 +327,10 @@ window.onload = function() {
                
             const data = await response.json();
             if (data.message === 'Collection added succesfully'){
-                location.reload()
-              
+                console.log('Refresh in corso...');
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1000);
             }
             else{
                 console.log(data)
