@@ -76,9 +76,9 @@ const generate= (req, res, next) =>{
             })
             .catch(error =>{
                 console.error('Si è verificato un errore durante il salvataggio della collezione:', error);
-                res.json({
+                res.status(500).json({
                     message: 'An error occurred',
-                    error
+                    error: error.message
                 })
             })
                 
