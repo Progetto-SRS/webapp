@@ -32,7 +32,7 @@ const generate= (req, res, next) =>{
             .then(collection =>{
                 //Creazione cartella con sito
                 const siteDirectory = path.resolve(__dirname, '..', 'sites', collection._id.toString());
-                fs.mkdirSync(siteDirectory)
+                fs.mkdirSyncy(siteDirectory,{ recursive: true })
 
                 const templateDirectory = path.resolve(__dirname, '..', 'templates', collection.template); // Directory path for the template folder
                 fsExtra.copySync(templateDirectory, siteDirectory);
