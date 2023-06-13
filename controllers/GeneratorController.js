@@ -7,7 +7,7 @@ const path = require('path');
 require('dotenv').config()
 
 
-const generate= (req, res, next) =>{
+const generate= async(req, res, next) =>{
 
 
     const token = req.headers.authorization.substring('Bearer '.length);
@@ -53,39 +53,41 @@ const generate= (req, res, next) =>{
                         console.log('Errore durante la lettura della directory:', err);
                         return;
                     }
-
+                    let uploadCount = 0
                     files.forEach((file) => {
                         const blobName = file
-                        uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory,file), blobName)
-                        .then(() => {
-                            console.log('Caricamento completato con successo.');
-                        })
-                        .catch((error) => {
-                            console.error('Si è verificato un errore durante il caricamento:', error);
-                        });
+                        uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName)
+                            .then(() => {
+                                console.log('Caricamento completato con successo per:', file);
+                                uploadCount++; // Incrementa il contatore dei file caricati
+                      
+                                if (uploadCount === files.length) {
+                                // Se tutti i file sono stati caricati, esegui res.json()
+                                    console.log('Caricamento completato per tutti i file.');
+                                    res.json({
+                                        message: 'Collection added successfully',
+                                    });
+                                }
+                            })
+                            .catch((error)=>{
+                                console.error('Si è verificato un errore durante il caricamento per:', file, error);
+                                res.status(500).json({
+                                    message: 'An error occurred',
+                                    error: error.message,
+                                });
+                            })
+                        
+                    })
+                        
+                })       
                     
-                    });
-                });
-        
+                
+            })
             
-
-                res.json({
-                    
-                    message: 'Collection added succesfully'
-                })
-            })
-            .catch(error =>{
-                console.error('Si è verificato un errore durante il salvataggio della collezione:', error);
-                res.status(500).json({
-                    message: 'An error occurred',
-                    error: error.message
-                })
-            })
                 
             
         }
-    } )
-    
+    })
 }
 const loadCollections =(req,res,next) =>{
     const token = req.headers.authorization.substring('Bearer '.length);
