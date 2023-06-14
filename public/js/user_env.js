@@ -182,17 +182,44 @@ window.onload = function() {
     const error = document.getElementById("error");
     const error2 = document.getElementById("error2");
 
+    let timerId;
     nameSite.addEventListener("input", function () {
-        nameSite.style.backgroundColor = 'inherit'
-        if (nameSite.value.trim().length > 0) {
-            submitButton.style.opacity=1;
-            submitButton.style.pointerEvents= "auto";
-            error.style.display = "none";
-        } else if (nameSite.value.trim()==="") {
-            submitButton.style.pointerEvents= "none";
-          submitButton.style.opacity = 0.5
-            error.style.display = "block";
-        }
+        clearTimeout(timerId);
+
+        timerId = setTimeout(function() {
+            nameSite.style.backgroundColor = 'inherit'
+            if (nameSite.value.trim().length > 0) {
+                const nomeSito = nameSite.value.trim();
+                const url = `https://dev-functions-srs.azurewebsites.net/api/check-name?nomeSito=${nomeSito}`;
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                    // Gestisci la risposta della richiesta
+                    console.log(data);
+
+                    if (data === "DISPONIBILE") {
+                        submitButton.style.pointerEvents = "auto";
+                        submitButton.style.opacity = 1;
+                        error.style.display = "none";
+                    } else {
+                        submitButton.style.pointerEvents = "none";
+                        submitButton.style.opacity = 0.5;
+                        error.style.display = "block";
+                        error.textContent ="This name is already in use"
+                    }
+                    })
+                    .catch(error => {
+                    // Gestisci eventuali errori
+                    console.error('Si è verificato un errore:', error);
+                    });
+
+            } else if (nameSite.value.trim()==="") {
+                submitButton.style.pointerEvents= "none";
+                submitButton.style.opacity = 0.5
+                error.style.display = "block";
+                error.textContent ="Please insert a valid name"
+            }
+        }, 700);
     });
 
         const selectElement = document.getElementById("type");
