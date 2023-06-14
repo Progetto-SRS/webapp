@@ -30,6 +30,9 @@ window.onload = function() {
                 addPnl.style.display = "none";
               }
             }
+            // Mostra la finestra di caricamento
+            const loadingOverlay = document.getElementById("loading-overlay");
+            loadingOverlay.style.display = "flex";
             
     }
     async function loadCollections(){
