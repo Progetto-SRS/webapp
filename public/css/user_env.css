@@ -36,6 +36,12 @@
     padding-left: 10px;
     color:#c6cdd5;
   }
+  #rmvImg{
+    width: 37px; 
+    height:37px;
+    float: right;
+
+  }
   .temp-name{
           padding-left: 10px;
           color:#c6cdd5;
@@ -196,7 +202,28 @@ input:-webkit-autofill:active{
       transform: rotate(360deg);
     }
   }
+  .swal2-container {
+    background-color: #061920;
+    color: #fff;
+  }
+  .swal2-popup{
+    background-color: #061920;
+  }
   
+  .swal2-title {
+    color: #fff;
+  }
+  
+  .swal2-content {
+    color: #ddd;
+  }
+  
+  .swal2-actions button {
+    color: #fff;
+  }
+  #swal2-html-container{
+    color: #fff;
+  }
   @media screen and (max-width: 950px) {
     .sites-container{
      grid-template-columns: 220px 220px 220px; 
