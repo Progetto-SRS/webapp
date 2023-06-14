@@ -1,5 +1,4 @@
 
-
 window.onload = function() {
     function getTokenFromCookie() {
         const cookies = document.cookie.split(';');
@@ -30,8 +29,39 @@ window.onload = function() {
                 addPnl.style.display = "none";
               }
             }
-            
     }
+    function removeCollection(collectionId, authenticationToken) {
+        fetch('api/remove-collection', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authenticationToken
+          },
+          body: JSON.stringify({ collectionId: collectionId })
+        })
+        .then(function(response) {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Errore nella richiesta di rimozione: ' + response.status);
+            }
+          })
+        .then(function(data) {
+            if (data.message === 'Collection removed successfully') {
+                console.log('Refresh in corso...');
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 300); 
+            } else {
+                throw new Error('Errore nella rimozione: ' + data.message);
+            }
+        
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    }
+
     async function loadCollections(){
         const sitesContainer = document.querySelector(".sites-container")
         try {
@@ -44,12 +74,11 @@ window.onload = function() {
                     Authorization: `Bearer ${token}`
                 }            
             });  
-            const data = await response.json();
+            const data = await response.json(); //data contains all collections associated to user that send the request
             if (data.message === 'An error occurred'){
                 console.log("An error occurred loading websites")
             }
             else{
-                console.log(data)
                 data.collection.forEach(element => {
                     var siteDiv = document.createElement('div')
                     siteDiv.classList.add("grid-item")
@@ -58,17 +87,48 @@ window.onload = function() {
                     var spanType = document.createElement('span')
                     spanType.innerHTML = "Type: " + element.siteType
                     spanType.classList.add("hidden")
+                    var rmvImg = document.createElement('img')
+                    rmvImg.src = "../img/recycleBin.png"
+                    rmvImg.id = "rmvImg";
+                    rmvImg.addEventListener('click', function() {
+                        var collectionId = element._id.toString();
+                        const token = getTokenFromCookie();
+                        Swal.fire({
+                            title: 'Confirm',
+                            text: 'Are you sure to delete this website?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Delete',
+                            cancelButtonText: 'Cancel',
+                            
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              // L'utente ha confermato l'azione, chiama la funzione removeCollection
+                              removeCollection(collectionId, token);
+                            } else {
+                              // L'utente ha annullato l'azione, non fare nulla
+                            }
+                          });
+                      });
+                    rmvImg.classList.add("hidden")
+                    siteDiv.appendChild(rmvImg)
                     siteDiv.appendChild(nameP)
                     siteDiv.appendChild(spanType)
                     siteDiv.addEventListener('mouseover', function(){
                         this.style.backgroundColor = '#89929b';
+                        nameP.style.color = '#000000';
+                        spanType.style.color = '#000000';
                         spanType.classList.remove("hidden");
                         spanType.classList.add("visible");
+                        rmvImg.classList.remove("hidden");
                     });
                     siteDiv.addEventListener('mouseout', function(){
                         this.style.backgroundColor = '#21262d';
+                        nameP.style.color = '#c6cdd5';
+                        spanType.style.color = '#c6cdd5';
                         spanType.classList.remove("visible");
                         spanType.classList.add("hidden");
+                        rmvImg.classList.add("hidden")
                     });
                     sitesContainer.appendChild(siteDiv)
                     
@@ -154,6 +214,9 @@ window.onload = function() {
             error2.style.display ="block"
             return
         }
+        // Mostra la finestra di caricamento
+        const loadingOverlay = document.getElementById("loading-overlay");
+        loadingOverlay.style.display = "flex";
       });
      
 

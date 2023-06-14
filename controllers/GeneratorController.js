@@ -54,6 +54,7 @@ const generate= async(req, res, next) =>{
                         return;
                     }
                     let uploadCount = 0
+                    let errorOccurred = false;
                     files.forEach((file) => {
                         const blobName = file
                         uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName)
@@ -61,12 +62,22 @@ const generate= async(req, res, next) =>{
                                 console.log('Caricamento completato con successo per:', file);
                                 uploadCount++; // Incrementa il contatore dei file caricati
                       
-                                if (uploadCount === files.length) {
-                                // Se tutti i file sono stati caricati, esegui res.json()
+                                if (uploadCount === files.length && !errorOccurred) {
                                     console.log('Caricamento completato per tutti i file.');
-                                    res.json({
-                                        message: 'Collection added successfully'
-                                    });
+                                    fsExtra.remove(siteDirectory)
+                                        .then(()=>{
+                                            console.log('Rimozione cartella completata.')
+                                            res.json({
+                                                message: 'Collection added successfully'
+                                            });
+                                        })
+                                        .catch(error=>{
+                                            console.error('Si è verificato un errore durante la rimozione della cartella:', error);
+                                            res.status(500).json({
+                                                message: 'An error occurred',
+                                                error: error.message
+                                            });
+                                        })
                                 }
                             })
                             .catch((error)=>{
@@ -138,6 +149,34 @@ const loadUsername = (req,res,next) =>{
     } )
 }
 
+
+const removeCollection =(req,res,next) =>{
+    const token = req.headers.authorization.substring('Bearer '.length);
+    jwt.verify(token, process.env.SECRET_KEY, function(err, decode){
+        if(err){
+            res.status(400).json({
+                message: 'An error occurred',
+                err
+            })
+        }
+        else{
+            const collectionId = req.body.collectionId;
+            Collection.findOneAndRemove({ _id: collectionId, username: decode.name })
+            .then(() => {
+                res.status(200).json({
+                    message: 'Collection removed successfully'
+                });
+            })
+            .catch(error => {
+                res.status(500).json({
+                    message: 'An error occurred. Impossible to remove collection',
+                    error: error.message
+            });
+        });
+        }
+    })
+}
+
 module.exports= {
-    generate, loadCollections, loadUsername
+    generate, loadCollections, loadUsername, removeCollection
 }
