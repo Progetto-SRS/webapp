@@ -14,8 +14,8 @@ const Route =require('./routes/route');
 const authenticate = require('./middleware/authenticate');
 
 
-//mongoose.connect(process.env.AZURE_COSMOS_CONNECTIONSTRING, {useNewUrlParser: true, useUnifiedTopology: true}); //USE THIS ON AZURE
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}); //USE THIS FOR TEST ONLY
+mongoose.connect(process.env.AZURE_COSMOS_CONNECTIONSTRING, {useNewUrlParser: true, useUnifiedTopology: true}); //USE THIS ON AZURE
+//mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}); //USE THIS FOR TEST ONLY
 
 const db = mongoose.connection;
 
