@@ -54,6 +54,7 @@ const generate= async(req, res, next) =>{
                         return;
                     }
                     let uploadCount = 0
+                    let errorOccurred = false;
                     files.forEach((file) => {
                         const blobName = file
                         uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName)
@@ -61,12 +62,22 @@ const generate= async(req, res, next) =>{
                                 console.log('Caricamento completato con successo per:', file);
                                 uploadCount++; // Incrementa il contatore dei file caricati
                       
-                                if (uploadCount === files.length) {
-                                // Se tutti i file sono stati caricati, esegui res.json()
+                                if (uploadCount === files.length && !errorOccurred) {
                                     console.log('Caricamento completato per tutti i file.');
-                                    res.json({
-                                        message: 'Collection added successfully'
-                                    });
+                                    fsExtra.remove(siteDirectory)
+                                        .then(()=>{
+                                            console.log('Rimozione cartella completata.')
+                                            res.json({
+                                                message: 'Collection added successfully'
+                                            });
+                                        })
+                                        .catch(error=>{
+                                            console.error('Si è verificato un errore durante la rimozione della cartella:', error);
+                                            res.status(500).json({
+                                                message: 'An error occurred',
+                                                error: error.message
+                                            });
+                                        })
                                 }
                             })
                             .catch((error)=>{
