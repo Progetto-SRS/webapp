@@ -219,7 +219,7 @@ window.onload = function() {
                 error.style.display = "block";
                 error.textContent ="Please insert a valid name"
             }
-        }, 700);
+        }, 400);
     });
 
         const selectElement = document.getElementById("type");
