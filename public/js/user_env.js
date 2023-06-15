@@ -186,7 +186,7 @@ window.onload = function() {
     let fetchInfo = { promise: null, timerId: null };
     nameSite.addEventListener("input", function () {
         if(fetchInfo.promise){
-            clearTimeout(fetchPromise.timerId);
+            clearTimeout(fetchInfo.timerId);
         }
         fetchInfo.promise = new Promise((resolve)=>{
             fetchInfo.timerId = setTimeout(function() {
