@@ -46,6 +46,27 @@ const generate= async(req, res, next) =>{
         }
 
         if(azureFunctionSuccess){
+            // Creazione del container $web
+            const createContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/create-container';
+            const createContainerParams = {
+                nomeContainer: '$web',
+                accountStorage: storageAccountName,
+            };
+
+            try {
+                const createContainerResponse = await axios.post(createContainerUrl, createContainerParams);
+
+                if (createContainerResponse.status === 200 && createContainerResponse.data === 'SUCCESSO') {
+                    console.log('Richiesta alla Azure Function per la creazione del container riuscita');
+                } else {
+                    console.log('Richiesta alla Azure Function per la creazione del container non riuscita');
+                    return
+                }
+            } catch (error) {
+                console.error('Si è verificato un errore durante la richiesta alla Azure Function per la creazione del container', error);
+                return
+            }
+
             //Creazione cartella con sito
             const siteDirectory = path.resolve(__dirname, '..', 'sites', collection._id.toString());
             fs.mkdirSync(siteDirectory,{ recursive: true })
