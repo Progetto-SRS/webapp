@@ -191,26 +191,28 @@ window.onload = function() {
         fetchPromise = new Promise((resolve)=>{
             fetchPromise.timerId = setTimeout(function() {
                 nameSite.style.backgroundColor = 'inherit'
-                if (nameSite.value.trim().length > 0) {
-                    const nomeSito = nameSite.value.trim();
+                const nomeSito = nameSite.value.trim();
+                const isValidName = /^[a-z][a-z0-9]{2,23}$/.test(nomeSito)
+                if (nomeSito.length > 0 && isValidName) {
+                    
                     const url = `https://dev-functions-srs.azurewebsites.net/api/check-name?nomeSito=${nomeSito}`;
                     fetch(url)
                         .then(response => response.text())
                         .then(data => {
                         // Gestisci la risposta della richiesta
-                        console.log(data);
-    
-                        if (data === "DISPONIBILE") {
-                            submitButton.style.pointerEvents = "auto";
-                            submitButton.style.opacity = 1;
-                            error.style.display = "none";
-                        } else {
-                            submitButton.style.pointerEvents = "none";
-                            submitButton.style.opacity = 0.5;
-                            error.style.display = "block";
-                            error.textContent ="This name is already in use"
-                        }
-                        resolve()
+                            console.log(data);
+        
+                            if (data === "DISPONIBILE") {
+                                submitButton.style.pointerEvents = "auto";
+                                submitButton.style.opacity = 1;
+                                error.style.display = "none";
+                            } else {
+                                submitButton.style.pointerEvents = "none";
+                                submitButton.style.opacity = 0.5;
+                                error.style.display = "block";
+                                error.textContent ="This name is already in use"
+                            }
+                            resolve()
                         })
                         .catch(error => {
                         // Gestisci eventuali errori
@@ -218,12 +220,18 @@ window.onload = function() {
                             resolve()
                         });
     
-                } else if (nameSite.value.trim()==="") {
+                } else if (nomeSito==="") {
                     submitButton.style.pointerEvents= "none";
                     submitButton.style.opacity = 0.5
                     error.style.display = "block";
                     error.textContent ="Please insert a valid name"
                     resolve()
+                } else {
+                    submitButton.style.pointerEvents = "none";
+                    submitButton.style.opacity = 0.5;
+                    error.style.display = "block";
+                    error.textContent = "Invalid name. The name must start with a lowercase letter and can only contain lowercase letters and numbers. It should be between 3 and 24 characters long.";
+                    resolve();
                 }
             }, 400);
         })
