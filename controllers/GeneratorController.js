@@ -47,17 +47,17 @@ const generate= async(req, res, next) =>{
 
         if(azureFunctionSuccess){
             // Creazione del container $web
-            const createContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/create-container';
+            const createContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/enable-static-website';
             const createContainerParams = {
-                nomeContainer: '$web',
-                accountStorage: storageAccountName,
+                
+                nomeSito: storageAccountName,
             };
 
             try {
                 const createContainerResponse = await axios.post(createContainerUrl, createContainerParams);
 
                 if (createContainerResponse.status === 200 && createContainerResponse.data === 'SUCCESSO') {
-                    console.log('Richiesta alla Azure Function per la creazione del container riuscita');
+                    console.log('Richiesta alla Azure Function per la creazione del container e abilitare il sito riuscita');
                 } else {
                     console.log('Richiesta alla Azure Function per la creazione del container non riuscita');
                     return
@@ -212,34 +212,8 @@ const removeCollection = async(req,res,next) =>{
         const storageAccountName = collection.siteName;
         const containerName = '$web';
 
-        // Cancellazione del container
-        const deleteContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/delete-container';
-        const deleteContainerParams = {
-        nomeContainer: containerName,
-        accountStorage: storageAccountName,
-        };
-
-        let deleteContainerSuccess = false;
-        try {
-            const deleteContainerResponse = await axios.post(deleteContainerUrl, deleteContainerParams);
-
-            if (deleteContainerResponse.status === 200 && deleteContainerResponse.data === 'SUCCESSO') {
-                console.log('Richiesta alla Azure Function per la cancellazione del container riuscita');
-                deleteContainerSuccess = true;
-            } else {
-                console.log('Richiesta alla Azure Function per la cancellazione del container non riuscita');
-                res.status(500).json({
-                    message: 'An error occurred in Azure Function (container deletion)',
-                });
-                return;
-            }
-        } catch (error) {
-            console.error('Si è verificato un errore durante la richiesta alla Azure Function per la cancellazione del container', error);
-            res.status(500).json({
-                message: 'An error occurred in Azure Function (container deletion)',
-            });
-            return;
-        }
+        // Cancellazione del container --RIMOSSA
+        
 
         // Cancellazione dell'account storage
         const deleteStorageAccountUrl = 'https://dev-functions-srs.azurewebsites.net/api/delete-account-storage';
@@ -269,7 +243,7 @@ const removeCollection = async(req,res,next) =>{
             return;
         }
 
-        if (deleteContainerSuccess && deleteStorageAccountSuccess) {
+        if (deleteStorageAccountSuccess) {
         // Rimozione della collezione dal database
             await Collection.findOneAndRemove({ _id: collectionId, username: decode.name });
 

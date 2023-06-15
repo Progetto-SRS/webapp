@@ -183,13 +183,13 @@ window.onload = function() {
     const error2 = document.getElementById("error2");
 
    
-    let fetchPromise;
+    let fetchInfo = { promise: null, timerId: null };
     nameSite.addEventListener("input", function () {
-        if(fetchPromise){
+        if(fetchInfo.promise){
             clearTimeout(fetchPromise.timerId);
         }
-        fetchPromise = new Promise((resolve)=>{
-            fetchPromise.timerId = setTimeout(function() {
+        fetchInfo.promise = new Promise((resolve)=>{
+            fetchInfo.timerId = setTimeout(function() {
                 nameSite.style.backgroundColor = 'inherit'
                 const nomeSito = nameSite.value.trim();
                 const isValidName = /^[a-z][a-z0-9]{2,23}$/.test(nomeSito)
