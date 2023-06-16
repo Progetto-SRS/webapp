@@ -9,6 +9,19 @@ const util = require('util');
 
 require('dotenv').config()
 
+function determineContentType(extension) {
+    const contentTypeMap = {
+      '.html': 'text/html',
+      '.css': 'text/css',
+      '.js': 'application/javascript',
+      '.json': 'application/json',
+      // Aggiungi altre estensioni e tipi di contenuto supportati
+    };
+  
+    // Restituisce il tipo di contenuto corrispondente all'estensione, se disponibile
+    return contentTypeMap[extension] || 'application/octet-stream';
+  }
+
 const verifyJwt = util.promisify(jwt.verify);
 
 const generate= async(req, res, next) =>{
@@ -94,7 +107,9 @@ const generate= async(req, res, next) =>{
 
                 files.forEach((file) => {
                 const blobName = file;
-                uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName)
+                const extension = path.extname(file);
+                const contentType = determineContentType(extension);
+                uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName, contentType)
                     .then(() => {
                     console.log('Caricamento completato con successo per:', file);
                     uploadCount++;
