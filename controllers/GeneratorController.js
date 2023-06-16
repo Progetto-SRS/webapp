@@ -27,7 +27,10 @@ const generate= async(req, res, next) =>{
 
         //Creazione storageAccount
         const azureFunctionUrl = 'https://dev-functions-srs.azurewebsites.net/api/create-account-storage';
-        const requestBody = { nomeSito: storageAccountName };
+        const requestBody = { 
+            nomeSito: storageAccountName,
+            gruppoRisorse: 'users-env'
+        };
 
         let azureFunctionSuccess = false
         try{
@@ -219,6 +222,7 @@ const removeCollection = async(req,res,next) =>{
         const deleteStorageAccountUrl = 'https://dev-functions-srs.azurewebsites.net/api/delete-account-storage';
         const deleteStorageAccountParams = {
             nomeSito: storageAccountName,
+            gruppoRisorse: 'users-env' 
         };
 
         let deleteStorageAccountSuccess = false;
