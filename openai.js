@@ -11,9 +11,9 @@ const openai = new OpenAIApi(configuration);
 const generateContent = async (prompt) => {
   try {
     const gptResponse = await openai.createCompletion({
-      model: 'gpt-4',
+      model: 'text-davinci-003',
       prompt: prompt,
-      maxTokens: 100,
+      max_tokens: 100,
       n: 1,
       temperature: 0.7,
     });
