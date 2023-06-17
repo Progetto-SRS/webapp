@@ -130,6 +130,10 @@ window.onload = function() {
                         spanType.classList.add("hidden");
                         rmvImg.classList.add("hidden")
                     });
+                    siteDiv.addEventListener('click',function (){
+                        const url = 'https://'+ element.siteName+'.z6.web.core.windows.net/'; 
+                        window.open(url, '_blank');
+                    })
                     sitesContainer.appendChild(siteDiv)
                     
                 });

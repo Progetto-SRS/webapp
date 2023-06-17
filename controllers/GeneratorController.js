@@ -24,13 +24,13 @@ function determineContentType(extension) {
     return contentTypeMap[extension] || 'application/octet-stream';
 }
 
-function generateSiteContent(template, path){
+function generateSiteContent(template, directoryPath){
     if (template.charAt(0) ==='1'){    //ID relativo a sito di news
 
     }else if(template.charAt(0) ==='2'){ //ID relativo a sito Blog
 
     }else if (template.charAt(0)==='3'){ //ID relativo a sito di E-commerce
-        fs.readdir(path, (err, files) => {
+        fs.readdir(directoryPath, (err, files) => {
             if (err) {
                 console.log('Errore durante la lettura della directory:', err);
                 return;
@@ -41,7 +41,7 @@ function generateSiteContent(template, path){
 
                 // Verifica l'estensione e il nome del file
                 if (fileExtension === '.html') {
-                    const filePath = path.resolve(path, file);
+                    const filePath = path.resolve(directoryPath, file);
                     // Leggi il contenuto del file HTML
                     const fileContent = fs.readFileSync(filePath, 'utf8');
                     // Analizza il contenuto HTML 
