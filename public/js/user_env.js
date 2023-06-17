@@ -90,7 +90,8 @@ window.onload = function() {
                     var rmvImg = document.createElement('img')
                     rmvImg.src = "../img/recycleBin.png"
                     rmvImg.id = "rmvImg";
-                    rmvImg.addEventListener('click', function() {
+                    rmvImg.addEventListener('click', function(event) {
+                        event.stopPropagation();
                         var collectionId = element._id.toString();
                         const token = getTokenFromCookie();
                         Swal.fire({
