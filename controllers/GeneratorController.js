@@ -1,11 +1,13 @@
 const Collection = require('../models/Collections')
 const { uploadToAzureStorage } = require('../azureStorage');
+const openai = require('../openai');
 const jwt = require('jsonwebtoken')
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 const path = require('path');
 const axios = require('axios')
 const util = require('util');
+const cheerio = require('cheerio');
 
 require('dotenv').config()
 
@@ -20,7 +22,94 @@ function determineContentType(extension) {
   
     // Restituisce il tipo di contenuto corrispondente all'estensione, se disponibile
     return contentTypeMap[extension] || 'application/octet-stream';
-  }
+}
+
+function generateSiteContent(template, path){
+    if (template.charAt(0) ==='1'){    //ID relativo a sito di news
+
+    }else if(template.charAt(0) ==='2'){ //ID relativo a sito Blog
+
+    }else if (template.charAt(0)==='3'){ //ID relativo a sito di E-commerce
+        fs.readdir(path, (err, files) => {
+            if (err) {
+                console.log('Errore durante la lettura della directory:', err);
+                return;
+            }
+            files.forEach(async (file)=>{
+                const fileExtension = path.extname(file);
+                const fileName = path.basename(file, fileExtension);
+
+                // Verifica l'estensione e il nome del file
+                if (fileExtension === '.html') {
+                    const filePath = path.resolve(path, file);
+                    // Leggi il contenuto del file HTML
+                    const fileContent = fs.readFileSync(filePath, 'utf8');
+                    // Analizza il contenuto HTML 
+                    const $ = cheerio.load(fileContent);
+                    if (fileName === 'index') {
+                        //Itero per ogni elemento di classe product
+                        $('.product').each(async (index, element) => {
+                            const productElement = $(element);
+                        
+                            const generatedProductName = await openai.generateContent('Genera un nome di un prodotto per un sito di e-commerce');
+                            productElement.find('.product-name').text(generatedProductName);
+                        
+                            const generatedProductDescription = await openai.generateContent(`genera una descrizione consona per il prodotto denominato "${generatedProductName}": `);
+                            productElement.find('.product-description').text(generatedProductDescription);
+                        
+                            const generatedProductPrice = await openai.generateContent(`Inserisci un prezzo consono per il prodotto denominato "${generatedProductName}": `);
+                            productElement.find('.price').text(generatedProductPrice);
+                        
+                            // Puoi aggiungere ulteriori modifiche specifiche per ciascun elemento della classe "product"
+                        
+                            // ...
+                        
+                        });
+
+                        //Sovrascrivo il file con quello modificato
+                        fs.writeFileSync(filePath, $.html());
+
+                    } else if (fileName === 'contact') {
+                        
+                        const aboutElement = $('.about-content');
+                        
+                        const generatedAboutContent = await openai.generateContent('Genera un testo per la sezione about per un sito di e-commerce');
+                        aboutElement.text(generatedAboutContent);
+
+                        const emailElement = $('.contact-email');
+                        
+                        const generatedEmailContent = await openai.generateContent('Genera un e-mail rispettando la seguente specifica: E-mail: <email>');
+                        emailElement.text(generatedEmailContent);
+
+                        const phoneElement = $('.contact-phone');
+                        
+                        const generatedPhoneContent = await openai.generateContent('Genera un numero di telefono rispettando la seguente specifica: Phone: <phone>');
+                        phoneElement.text(generatedPhoneContent);
+
+                        const addressElement = $('.contact-address');
+                        
+                        const generatedAddressContent = await openai.generateContent('Genera un indirizzo per la sezione contact me di un sito rispettando la seguente specifica: Address: <street>, <city>, <country>');
+                        addressElement.text(generatedAddressContent);
+
+                        //Sovrascrivo il file con quello modificato
+                        fs.writeFileSync(filePath, $.html());
+                    }
+                    // Aggiungi ulteriori controlli per altri file con nomi specifici
+                }
+
+
+        
+            })
+
+        })
+        return true
+
+    }else if (template.charAt(0)==='4'){ //ID relativo a sito portfolio
+
+    }else{
+        return false
+    }  
+}
 
 const verifyJwt = util.promisify(jwt.verify);
 
@@ -93,64 +182,71 @@ const generate= async(req, res, next) =>{
             console.log('File copiati da:', templateDirectory);
             
             //GENERAZIONE --TODO
+            const generationSuccess = generateSiteContent(collection.template, siteDirectory);
 
             const containerName = '$web';
+            if(generationSuccess){
+                //Caricamento file su azure
+                fs.readdir(siteDirectory, (err, files) => {
+                    if (err) {
+                    console.log('Errore durante la lettura della directory:', err);
+                    return;
+                    }
+                    
 
-            fs.readdir(siteDirectory, (err, files) => {
-                if (err) {
-                console.log('Errore durante la lettura della directory:', err);
-                return;
-                }
+                    let uploadCount = 0;
+                    let errorOccurred = false;
 
-                let uploadCount = 0;
-                let errorOccurred = false;
-
-                files.forEach((file) => {
-                const blobName = file;
-                const extension = path.extname(file);
-                const contentType = determineContentType(extension);
-                uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName, contentType)
-                    .then(() => {
-                    console.log('Caricamento completato con successo per:', file);
-                    uploadCount++;
-
-                    if (uploadCount === files.length && !errorOccurred) {
-                        console.log('Caricamento completato per tutti i file.');
-                        collection.save()
+                    files.forEach((file) => {
+                    const blobName = file;
+                    const extension = path.extname(file);
+                    const contentType = determineContentType(extension);
+                    uploadToAzureStorage(storageAccountName, containerName, path.resolve(siteDirectory, file), blobName, contentType)
                         .then(() => {
-                            fsExtra.remove(siteDirectory)
+                        console.log('Caricamento completato con successo per:', file);
+                        uploadCount++;
+
+                        if (uploadCount === files.length && !errorOccurred) {
+                            console.log('Caricamento completato per tutti i file.');
+                            collection.save()
                             .then(() => {
-                                console.log('Rimozione cartella completata.');
-                                res.json({
-                                message: 'Collection added successfully',
+                                fsExtra.remove(siteDirectory)
+                                .then(() => {
+                                    console.log('Rimozione cartella completata.');
+                                    res.json({
+                                    message: 'Collection added successfully',
+                                    });
+                                })
+                                .catch((error) => {
+                                    console.error('Si è verificato un errore durante la rimozione della cartella:', error);
+                                    res.status(500).json({
+                                    message: 'An error occurred',
+                                    error: error.message,
+                                    });
                                 });
                             })
                             .catch((error) => {
-                                console.error('Si è verificato un errore durante la rimozione della cartella:', error);
+                                console.error('Si è verificato un errore durante il salvataggio della collezione:', error);
                                 res.status(500).json({
                                 message: 'An error occurred',
                                 error: error.message,
                                 });
                             });
+                        }
                         })
                         .catch((error) => {
-                            console.error('Si è verificato un errore durante il salvataggio della collezione:', error);
+                            console.error('Si è verificato un errore durante il caricamento per:', file, error);
                             res.status(500).json({
-                            message: 'An error occurred',
-                            error: error.message,
+                                message: 'An error occurred',
+                                error: error.message,
                             });
-                        });
-                    }
-                    })
-                    .catch((error) => {
-                        console.error('Si è verificato un errore durante il caricamento per:', file, error);
-                        res.status(500).json({
-                            message: 'An error occurred',
-                            error: error.message,
                         });
                     });
                 });
-            });
+            }else{
+                console.log("an error occurred generating content")
+            }
+            
         } else {
             res.status(500).json({
                 message: 'An error occurred in Azure Function',
