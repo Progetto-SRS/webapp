@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var RateLimit = require('express-rate-limit');
 
+const helmet = require("helmet");
+
 
 require('dotenv').config()
 
@@ -38,10 +40,21 @@ const app = express();
 
 var limiter = RateLimit({
     windowMs: 1*60*1000, // 1 minute
-    max: 5
+    max: 15
   });
-  
-// apply rate limiter to all requests
+
+helmet.contentSecurityPolicy.getDefaultDirectives()
+app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          "script-src": ["'self'", "example.com"],
+          "style-src": null,
+        },
+      },
+    })
+  );
+app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
 app.use(limiter);
 app.use(morgan('dev')); //combined o common for production
 app.use(bodyParser.urlencoded({extended:true}));
