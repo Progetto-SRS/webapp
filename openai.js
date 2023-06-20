@@ -13,7 +13,7 @@ const generateContent = async (prompt) => {
     const gptResponse = await openai.createCompletion({
       model: 'text-davinci-003',
       prompt: prompt,
-      max_tokens: 100,
+      max_tokens: 40,
       n: 1,
       temperature: 0.7,
     });
