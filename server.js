@@ -10,6 +10,8 @@ var RateLimit = require('express-rate-limit');
 
 const helmet = require("helmet");
 
+const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+
 
 require('dotenv').config()
 
@@ -39,21 +41,20 @@ const HOST = "0.0.0.0";
 const app = express();
 
 var limiter = RateLimit({
-    windowMs: 1*60*1000, // 1 minute
-    max: 15
+    windowMs: 5*60*1000, // 1 minute
+    max: 50
   });
 
-helmet.contentSecurityPolicy.getDefaultDirectives()
-app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          "script-src": ["'self'", "example.com"],
-          "style-src": null,
-        },
-      },
-    })
-  );
+
+  app.use(expressCspHeader({
+    directives: {
+        'default-src': [SELF],
+        'script-src': [SELF, INLINE],
+        'style-src': [SELF],
+        'worker-src': [NONE],
+        'block-all-mixed-content': true
+    }
+}));
 app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
 app.use(limiter);
 app.use(morgan('dev')); //combined o common for production
