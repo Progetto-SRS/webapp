@@ -54,7 +54,8 @@ var limiter = RateLimit({
           'style-src': [SELF, INLINE, 'https://fonts.googleapis.com','https://fonts.gstatic.com','https://cdn.jsdelivr.net',],
           'worker-src': [NONE],
           'block-all-mixed-content': true,
-          'font-src' : [SELF, 'https://fonts.googleapis.com','https://fonts.gstatic.com']
+          'font-src' : [SELF, 'https://fonts.googleapis.com','https://fonts.gstatic.com'],
+          'connect-src':[SELF, 'https://dev-functions-srs.azurewebsites.net']
       }
   }));
 app.use(limiter);
