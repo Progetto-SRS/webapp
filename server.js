@@ -39,8 +39,8 @@ const HOST = "0.0.0.0";
 const app = express();
 
 var limiter = RateLimit({
-    windowMs: 5*60*1000, // 1 minute
-    max: 50
+    windowMs: 1*60*1000, // 1 minute
+    max: 1000000000
   });
 
 
