@@ -8,9 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var RateLimit = require('express-rate-limit');
 
-const helmet = require("helmet");
 
-const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 
 
 require('dotenv').config()
@@ -46,16 +44,19 @@ var limiter = RateLimit({
   });
 
 
+
+  const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+
   app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF],
-        'script-src': [SELF, INLINE],
-        'style-src': [SELF],
-        'worker-src': [NONE],
-        'block-all-mixed-content': true
-    }
-}));
-app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
+      directives: {
+          'default-src': [SELF],
+          'script-src': [SELF, INLINE, 'https://use.fontawesome.com/releases/v6.3.0/js/all.js','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js','https://use.fontawesome.com/releases/v6.3.0/js/all.js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11'], 
+          'style-src': [SELF, INLINE, 'https://fonts.googleapis.com','https://fonts.gstatic.com','https://cdn.jsdelivr.net',],
+          'worker-src': [NONE],
+          'block-all-mixed-content': true,
+          'font-src' : [SELF, 'https://fonts.googleapis.com','https://fonts.gstatic.com']
+      }
+  }));
 app.use(limiter);
 app.use(morgan('dev')); //combined o common for production
 app.use(bodyParser.urlencoded({extended:true}));
