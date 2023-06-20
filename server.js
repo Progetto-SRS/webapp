@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+var RateLimit = require('express-rate-limit');
+
 
 require('dotenv').config()
 
@@ -33,6 +35,14 @@ const HOST = "0.0.0.0";
 
 //App
 const app = express();
+
+var limiter = RateLimit({
+    windowMs: 1*60*1000, // 1 minute
+    max: 5
+  });
+  
+// apply rate limiter to all requests
+app.use(limiter);
 app.use(morgan('dev')); //combined o common for production
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());

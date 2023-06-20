@@ -51,13 +51,13 @@ function generateSiteContent(template, directoryPath){
                         $('.product').each(async (index, element) => {
                             const productElement = $(element);
                         
-                            const generatedProductName = await openai.generateContent('Genera un nome di un prodotto per un sito di e-commerce');
+                            const generatedProductName = await openai.generateContent('Genera il nome di un prodotto per un sito di e-commerce');
                             productElement.find('.product-name').text(generatedProductName);
                         
-                            const generatedProductDescription = await openai.generateContent(`genera una descrizione consona per il prodotto denominato "${generatedProductName}": `);
+                            const generatedProductDescription = await openai.generateContent(`genera una descrizione per il prodotto "${generatedProductName}": `);
                             productElement.find('.product-description').text(generatedProductDescription);
                         
-                            const generatedProductPrice = await openai.generateContent(`Inserisci un prezzo consono per il prodotto denominato "${generatedProductName}": `);
+                            const generatedProductPrice = await openai.generateContent(`Inserisci un prezzo consono per il prodotto "${generatedProductName}": `);
                             productElement.find('.price').text(generatedProductPrice);
                         
                             // Puoi aggiungere ulteriori modifiche specifiche per ciascun elemento della classe "product"
@@ -73,7 +73,7 @@ function generateSiteContent(template, directoryPath){
                         
                         const aboutElement = $('.about-content');
                         
-                        const generatedAboutContent = await openai.generateContent('Genera un testo per la sezione about per un sito di e-commerce');
+                        const generatedAboutContent = await openai.generateContent('Genera un testo per la sezione about di un e-commerce');
                         aboutElement.text(generatedAboutContent);
 
                         const emailElement = $('.contact-email');
@@ -88,7 +88,7 @@ function generateSiteContent(template, directoryPath){
 
                         const addressElement = $('.contact-address');
                         
-                        const generatedAddressContent = await openai.generateContent('Genera un indirizzo per la sezione contact me di un sito rispettando la seguente specifica: Address: <street>, <city>, <country>');
+                        const generatedAddressContent = await openai.generateContent('Genera un indirizzo rispettando la seguente specifica: Address: <street>, <city>, <country>');
                         addressElement.text(generatedAddressContent);
 
                         //Sovrascrivo il file con quello modificato
@@ -245,6 +245,7 @@ const generate= async(req, res, next) =>{
                 });
             }else{
                 console.log("an error occurred generating content")
+                return
             }
             
         } else {
@@ -314,7 +315,7 @@ const removeCollection = async(req,res,next) =>{
         const token = req.headers.authorization.substring('Bearer '.length);
         const decode = await verifyJwt(token, process.env.SECRET_KEY);
         const collectionId = req.body.collectionId;
-        const collection = await Collection.findOne({ _id: collectionId, username: decode.name });
+        const collection = await Collection.findOne({ _id: { $eq: collectionId }, username: { $eq: decode.name } }).exec();
 
         if (!collection) {
             res.status(404).json({
@@ -360,7 +361,7 @@ const removeCollection = async(req,res,next) =>{
 
         if (deleteStorageAccountSuccess) {
         // Rimozione della collezione dal database
-            await Collection.findOneAndRemove({ _id: collectionId, username: decode.name });
+            await Collection.findOneAndRemove({ _id:  { $eq: collectionId }, username:  { $eq: decode.name } }).exec();
 
             res.status(200).json({
                 message: 'Collection removed successfully',
