@@ -76,7 +76,7 @@ var limiter = RateLimit({
             "font-src": ["'self'", "https://fonts.googleapis.com/", "https://fonts.gstatic.com/"],
             "form-action": ["'self'"],
             //"img-src": ["'self", "http://www.w3.org/2000/svg", ".\public\img"],
-            "connect-src": ["self", "https://dev-functions-srs.azurewebsites.net/"],
+            //"connect-src": ["self", "https://dev-functions-srs.azurewebsites.net/"],
             },
         },
         })
