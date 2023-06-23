@@ -270,6 +270,11 @@ window.onload = function() {
             const settingNumArt = document.getElementById('numArticle-input')
             const settingPageLen = document.getElementById('page-len-select')
             settings.name = settingName.value 
+            if(selectedCategories===""){
+                settings.categories = selectedCategories;
+            }else{
+                settings.categories = selectedCategories.concat(additionalCategories);  
+            }
             settings.categories = selectedCategories.concat(additionalCategories);
             settings.nArt = settingNumArt.value
             settings.pageLen = settingPageLen.value
