@@ -57,6 +57,7 @@ function generateSiteContent(template, settings, directoryPath){
     return new Promise((resolve, reject) => {
         try{
             if (template.charAt(0) ==='1'){    //ID relativo a sito di news
+                const writePromises = [];
                 fs.readdir(directoryPath, (err, files) => {
                     if (err) {
                         console.log('Errore durante la lettura della directory:', err);
@@ -103,14 +104,36 @@ function generateSiteContent(template, settings, directoryPath){
                                     }
                                 }));
                                 //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             } 
                         }
                     })
                 })
-                console.log('Generazione completata con successo');
-                resolve(true);
+                Promise.all(writePromises)
+                    .then(() => {
+                        console.log('Generazione completata con successo');
+                        resolve(true);
+                    })
+                    .catch((error) => {
+                        // Rigetta la promessa esterna se si verifica un errore durante la sovrascrittura
+                        reject(error);
+                    });
             }else if(template.charAt(0) ==='2'){ //ID relativo a sito Blog
+                const writePromises = [];
                 fs.readdir(directoryPath, (err, files) => {
                     if (err) {
                         console.log('Errore durante la lettura della directory:', err);
@@ -144,8 +167,21 @@ function generateSiteContent(template, settings, directoryPath){
                                     const generatedObjectiveName = await openai.generateContent('Objective section of a blog website');
                                     objectiveElement.text(generatedObjectiveName);
 
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                    const writeFilePromise = new Promise((resolve, reject) => {
+                                        // Sovrascrivo il file con quello modificato
+                                        fs.writeFile(filePath, $.html(), (error) => {
+                                          if (error) {
+                                            console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                            reject(error);
+                                          } else {
+                                            console.log('Sovrascrittura del file completata con successo:', filePath);
+                                            resolve(true);
+                                          }
+                                        });
+                                    });
+                                    
+                                    // Aggiungi la promessa di sovrascrittura all'array
+                                    writePromises.push(writeFilePromise);
                                 
 
                             } else if (fileName === 'contacts') {
@@ -165,8 +201,21 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedAddressContent = await openai.generateContent('a random address: Address: <street>, <city>, <country>');
                                 addressElement.text(generatedAddressContent);
 
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
 
                             else if (fileName === 'blog') {
@@ -192,7 +241,21 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedContentName = await openai.generateContent(`A blog article matching the title ${generatedTitleName}`);
                                 contentElement.text(generatedContentName);
 
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
 
                             else if (fileName === 'articles') {
@@ -209,17 +272,38 @@ function generateSiteContent(template, settings, directoryPath){
                                     articleElement.find('.content').text(generatedArticleDescription);
 
                                 }));
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
                             // Aggiungi ulteriori controlli per altri file con nomi specifici
                         }
                     })
 
                 })
-                console.log('Generazione completata con successo');
-                resolve(true);
+                Promise.all(writePromises)
+                    .then(() => {
+                        console.log('Generazione completata con successo');
+                        resolve(true);
+                    })
+                    .catch((error) => {
+                        // Rigetta la promessa esterna se si verifica un errore durante la sovrascrittura
+                        reject(error);
+                    });
             }else if (template.charAt(0)==='3'){ //ID relativo a sito di E-commerce
+                const writePromises = [];
                 fs.readdir(directoryPath, (err, files) => {
                     if (err) {
                         console.log('Errore durante la lettura della directory:', err);
@@ -264,8 +348,21 @@ function generateSiteContent(template, settings, directoryPath){
                                         imgElement.css('background-image', `url(${imgUrl})`)
                                     }
                                 }));
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             } else if (fileName === 'contact') {
                                 
                                 const aboutElement = $('.about-content');
@@ -288,16 +385,37 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedAddressContent = await openai.generateContent('a random address: Address: <street>, <city>, <country>');
                                 addressElement.text(generatedAddressContent);
 
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
                             // Aggiungi ulteriori controlli per altri file con nomi specifici
                         }
                     })
                 })
-                console.log('Generazione completata con successo');
-                resolve(true);
+                Promise.all(writePromises)
+                    .then(() => {
+                        console.log('Generazione completata con successo');
+                        resolve(true);
+                    })
+                    .catch((error) => {
+                        // Rigetta la promessa esterna se si verifica un errore durante la sovrascrittura
+                        reject(error);
+                    });
             }else if (template.charAt(0)==='4'){ //ID relativo a sito portfolio
+                const writePromises = [];
                 fs.readdir(directoryPath, (err, files) => {
                     if (err) {
                         console.log('Errore durante la lettura della directory:', err);
@@ -396,8 +514,21 @@ function generateSiteContent(template, settings, directoryPath){
                                 // }));
                                 
 
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                                 
 
                             } else if (fileName === 'pcontacts') {
@@ -417,8 +548,21 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedAddressContent = await openai.generateContent('a random address: Address: <street>, <city>, <country>');
                                 addressElement.text(generatedAddressContent);
 
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
 
                             else if (fileName === 'me') {
@@ -428,7 +572,21 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedSelfdescName = await openai.generateContent('A short description about a portfolio owner, his skills at work and his work experiences');
                                 selfdescElement.text(generatedSelfdescName);
 
-                                    fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
 
                             else if (fileName === 'works') {
@@ -465,15 +623,35 @@ function generateSiteContent(template, settings, directoryPath){
                                 const generatedDesc2Name = await openai.generateContent(`A description for "${generatedProject2Name}": `);
                                 desc2Element.text(generatedDesc2Name);
             
-                                //Sovrascrivo il file con quello modificato
-                                fs.writeFileSync(filePath, $.html());
+                                const writeFilePromise = new Promise((resolve, reject) => {
+                                    // Sovrascrivo il file con quello modificato
+                                    fs.writeFile(filePath, $.html(), (error) => {
+                                      if (error) {
+                                        console.error('Si è verificato un errore durante la sovrascrittura del file:', error);
+                                        reject(error);
+                                      } else {
+                                        console.log('Sovrascrittura del file completata con successo:', filePath);
+                                        resolve(true);
+                                      }
+                                    });
+                                });
+                                
+                                // Aggiungi la promessa di sovrascrittura all'array
+                                writePromises.push(writeFilePromise);
                             }
                             // Aggiungi ulteriori controlli per altri file con nomi specifici
                         }
                     })
                 })
-                console.log('Generazione completata con successo');
-                resolve(true);
+                Promise.all(writePromises)
+                    .then(() => {
+                        console.log('Generazione completata con successo');
+                        resolve(true);
+                    })
+                    .catch((error) => {
+                        // Rigetta la promessa esterna se si verifica un errore durante la sovrascrittura
+                        reject(error);
+                    });
             }
         }catch(error){
             console.error('Si è verificato un errore durante la generazione dei contenuti del sito:', error);
