@@ -89,8 +89,9 @@ registerForm.addEventListener('submit', async (e) => {
   const password = passwordInput.value;
   const confPassword = confPasswordInput.value;
 
-
-  const emailRegex = /^\w+(?:[\.-]?\w+)*@(?:\w+[\.-]?\w+)*\.\w{2,3}$/;
+                   
+  const emailRegex = /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/
+  //const emailRegex = /^(?=.{1,254}$)\w+(?:[\.-]?\w+)*@(?:\w+[\.-]?\w+)*\.\w{2,3}$/;
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&(){}:;<>,.?_+\-=|]).{8,}/
 
