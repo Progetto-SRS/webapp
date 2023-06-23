@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('./img/giorgio-trovato-n4cjanwvGdg-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header {
+  background-color: #6d6d6d9c;
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.posts {
+  flex: 2;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #6d6d6d;
+  color: #fff;
+  padding: 10px;
+}
+
+footer {
+  color: #030303;
+  padding: 10px;
+  text-align: center;
+  background-color: #6d6d6d9c;
+}
+
+.title {
+  background-color: #ffffff00;
+  width: fit-content;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #05050528;
+  color: #333333;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #cccccc;
+}
+
+
+

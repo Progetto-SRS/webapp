@@ -235,7 +235,7 @@ window.onload = function() {
                     submitButton.style.pointerEvents = "none";
                     submitButton.style.opacity = 0.5;
                     error.style.display = "block";
-                    error.textContent = "Invalid name. The name must start with a lowercase letter and can only contain lowercase letters and numbers. It should be between 3 and 24 characters long.";
+                    error.textContent = "The name must start with a lowercase letter and can only contain lowercase letters and numbers. It should be between 3 and 24 characters long.";
                     resolve();
                 }
             }, 400);
@@ -248,7 +248,7 @@ window.onload = function() {
         const settingContainer = document.getElementById("setting-cont");
 
         let templateID = '00';
-        let settings= [] ;
+        let settings= {} ;
 
     submitButton.addEventListener("click", function (event) {
         if (nameSite.value.trim() === "") {
@@ -262,6 +262,19 @@ window.onload = function() {
             error2.style.display ="block"
             return
         }
+        if(templateID.charAt(0)==='1'){
+            const settingName = document.getElementById('nameNews-input')
+            const catOptionsWrapper = document.getElementById('cat-options-wrapper')
+            const additionalCategories = document.getElementById('add-cat-input').value.split(',').map(category => category.trim());
+            const selectedCategories = Array.from(catOptionsWrapper.querySelectorAll('input[name="category"]:checked')).map(checkbox => checkbox.value);
+            const settingNumArt = document.getElementById('numArticle-input')
+            const settingPageLen = document.getElementById('page-len-select')
+            settings.name = settingName.value 
+            settings.categories = selectedCategories.concat(additionalCategories);
+            settings.nArt = settingNumArt.value
+            settings.pageLen = settingPageLen.value
+        }
+        console.log(settings)
         // Mostra la finestra di caricamento
         const loadingOverlay = document.getElementById("loading-overlay");
         loadingOverlay.style.display = "flex";
@@ -272,7 +285,7 @@ window.onload = function() {
 
       
           
-          selectElement.addEventListener("change", (event) => {
+        selectElement.addEventListener("change", (event) => {
             const valSelector = event.target.value;
             
             // Clear previous divs
@@ -281,7 +294,7 @@ window.onload = function() {
             
             // Create n divs
             if (valSelector =="news") {
-             for(let i=0;i<3;i++){
+             for(let i=0;i<1;i++){
               var divElement = document.createElement("div");
               divElement.classList.add("grid-item");
               divElement.classList.add("cell");
@@ -297,29 +310,102 @@ window.onload = function() {
               //divElement.textContent = `Div ${i+1}`;
               container.appendChild(divElement);
              };
+
+             //Settings for News
+             const nameLbl = document.createElement('label')
+             nameLbl.innerHTML = "Name of your News company: "
+             const inpName =document.createElement('input')
+             inpName.classList.add("setting-long-input")
+             inpName.setAttribute('id', 'nameNews-input')
+             inpName.setAttribute('type', 'text');
+             inpName.setAttribute('value', '');
+
+            const categoryLbl = document.createElement('label');
+            categoryLbl.innerHTML = 'Choose the categories: ';
+            const categories = ['Business', 'Sports', 'Weather', 'Tech', 'Politics', 'Economy','Entertainment', 'Health', 'Science','Culture and Art','Crime','Environment','Travel','Lifestyle','Education','Fashion', 'Food', 'Events','Music','Religion', 'Other'];
+            const categoryOptionsWrapper = document.createElement('div');
+            categoryOptionsWrapper.setAttribute('id', 'cat-options-wrapper')
+            categories.forEach(category => {
+                const checkbox = document.createElement('input');
+                checkbox.setAttribute('type', 'checkbox');
+                checkbox.setAttribute('name', 'category');
+                checkbox.setAttribute('value', category);
+
+                const categoryLbl = document.createElement('label');
+                categoryLbl.innerHTML = category;
+
+                const categoryOption = document.createElement('div');
+                categoryOption.appendChild(checkbox);
+                categoryOption.appendChild(categoryLbl);
+                categoryOptionsWrapper.appendChild(categoryOption);
+            });
+            const otherCheckbox = categoryOptionsWrapper.querySelector('input[value="Other"]');
+            const additionalCategoriesInput = document.createElement('input');
+            additionalCategoriesInput.classList.add('setting-long-input');
+            additionalCategoriesInput.setAttribute('type', 'text');
+            additionalCategoriesInput.setAttribute('placeholder', 'example: cat1, cat2, cat3, ...');
+            additionalCategoriesInput.setAttribute('id', 'add-cat-input')
+            additionalCategoriesInput.style.display = 'none';
+
+            
+
+            otherCheckbox.addEventListener('change', () => {
+            if (otherCheckbox.checked) {
+                additionalCategoriesInput.style.display = 'block';
+            } else {
+                additionalCategoriesInput.style.display = 'none';
+            }
+            });
+
+            categoryOptionsWrapper.appendChild(additionalCategoriesInput);
+
              const lbl = document.createElement("label");
-             lbl.innerHTML = 'Number of articles: ';
+             lbl.innerHTML = 'Number of articles for each category: ';
              const inpNumArt =document.createElement("input");
              inpNumArt.classList.add("setting-input");
+             inpNumArt.setAttribute('id', 'numArticle-input')
              inpNumArt.setAttribute('type', 'text');
              inpNumArt.setAttribute('value', '');
              
              const lbl2 = document.createElement("label");
              lbl2.innerHTML = 'Page length: ';
-             const inpPageLen =document.createElement("input");
-             inpPageLen.classList.add("setting-input");
-             inpPageLen.setAttribute('type', 'text');
-             inpPageLen.setAttribute('value', '');
+             const selectPageLen = document.createElement("select");
+             selectPageLen.classList.add("setting-input");
+             selectPageLen.setAttribute('id','page-len-select')
+             // Opzione 1: Short
+            const optionShort = document.createElement("option");
+            optionShort.value = 'short';
+            optionShort.text = 'Short';
+
+            // Opzione 2: Medium
+            const optionMedium = document.createElement("option");
+            optionMedium.value = 'medium';
+            optionMedium.text = 'Medium';
+
+            // Opzione 3: Big
+            const optionBig = document.createElement("option");
+            optionBig.value = 'big';
+            optionBig.text = 'Big';
+
+            // Aggiungi le opzioni al selettore
+            selectPageLen.appendChild(optionShort);
+            selectPageLen.appendChild(optionMedium);
+            selectPageLen.appendChild(optionBig);
+             
              
              const settingOptions = document.createElement("div");
+             settingOptions.appendChild(nameLbl)
+             settingOptions.appendChild(inpName)
+             settingOptions.appendChild(categoryLbl);
+             settingOptions.appendChild(categoryOptionsWrapper);
              settingOptions.appendChild(lbl);
              settingOptions.appendChild(inpNumArt);
              settingOptions.appendChild(lbl2);
-             settingOptions.appendChild(inpPageLen);
+             settingOptions.appendChild(selectPageLen);
              settingContainer.appendChild(settingOptions);
             }
             if (valSelector =="blog") {
-             for(let i=0;i<5;i++){
+             for(let i=0;i<1;i++){
               var divElement = document.createElement("div");
               divElement.classList.add("grid-item");
               divElement.classList.add("cell");
@@ -337,7 +423,7 @@ window.onload = function() {
              };
             }
             if (valSelector =="e-commerce") {
-             for(let i=0;i<2;i++){
+             for(let i=0;i<1;i++){
               var divElement = document.createElement("div");
               divElement.classList.add("grid-item");
               divElement.classList.add("cell");
@@ -355,7 +441,7 @@ window.onload = function() {
              };
             }
             if (valSelector =="portfolio") {
-             for(let i=0;i<4;i++){
+             for(let i=0;i<1;i++){
               var divElement = document.createElement("div");
               divElement.classList.add("grid-item");
               divElement.classList.add("cell");

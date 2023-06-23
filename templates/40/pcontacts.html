@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Il mio portfolio - Contatti</title>
+  <link rel="stylesheet" href="p.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>My portfolio</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="works.html">My Works</a></li>
+          <li><a href="me.html">About me</a></li>
+          <li><a href="pcontacts.html">Contacts</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Contacts</h2>
+      
+      <p>For any question or request, do not hesitate to contact me using the form below or via my contact details:</p>
+      
+      <ul>
+        <li class="contact-email">Email: info@example.com</li>
+        <li class="contact-phone">Telefono: 123-456-7890</li>
+        <li class="contact-address">Indirizzo: Via degli Esempi, 1234, Città</li>
+      </ul>
+      
+      <form action="invia.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 My Portfolio. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

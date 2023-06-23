@@ -15,7 +15,7 @@ const collectionSchema = new Schema({
         type: String
     },
     settings : {
-        type: [String]
+        type: Schema.Types.Mixed
     }
 },{timestamps: true})
 

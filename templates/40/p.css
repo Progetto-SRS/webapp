@@ -1,0 +1,170 @@
+/* Reset CSS */
+html, body, ul, ol, li, h1, h2, h3, h4, h5, h6, p, pre, code, address, fieldset, form, label, legend, caption {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-image: url('./img/drew-beamer-kUHfMW8awpE-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: #33333365;
+  color: #fff;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 24px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  text-align: center;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+main {
+  padding: 40px 0;
+}
+
+footer {
+  background-color: #00000044;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.project {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.project img {
+  max-width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.project h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.project p {
+  margin-bottom: 10px;
+}
+
+.project a {
+  display: inline-block;
+  background-color: #00000044;
+  color: #000000;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+img {
+  max-width: 100%;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  display: inline-block;
+  background-color: #00000044;
+  color: #000000;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+ul {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+
+ul li a {
+  color: #020202;
+  text-decoration: none;
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  background-color: #00000044;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.description {
+  padding: 10px;
+  color: #000000; /* Colore del testo */
+  background-color: hsla(0, 0%, 100%, 0); /* Colore di sfondo */
+  width: fit-content;
+}
+
+.gallery {
+  display: flex; /* Imposta il layout flessibile */
+}
+
+.gallery img {
+  width: 200px; /* Imposta la larghezza desiderata per le immagini */
+  height: 200px; /* Imposta l'altezza desiderata per le immagini */
+  object-fit: cover; /* Imposta il ridimensionamento delle immagini per adattarsi al contenitore */
+  margin-right: 10px; /* Aggiunge uno spazio tra le immagini */
+}
