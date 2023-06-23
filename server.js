@@ -44,6 +44,7 @@ var limiter = RateLimit({
     max: 1000000000
   });
 
+
   app.use(helmet.frameguard())
   app.use(helmet())
 
@@ -65,19 +66,25 @@ var limiter = RateLimit({
     },
     })
 );
-  //const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+  
 
-  /*app.use(expressCspHeader({
+
+/*  const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+
+  app.use(expressCspHeader({
       directives: {
           'default-src': [SELF],
-          'script-src': [SELF, 'https://use.fontawesome.com/releases/v6.3.0/js/all.js','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js','https://use.fontawesome.com/releases/v6.3.0/js/all.js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11'], 
-          'style-src': [SELF, 'https://fonts.googleapis.com','https://fonts.gstatic.com','https://cdn.jsdelivr.net', 'sha256-Jc7XaRBVYMy6h6FvjL32miHrOGOxYV+OP4swZ/9Gysw='],
-                                                                                                                    
+          'script-src': [SELF, INLINE, 'https://use.fontawesome.com/releases/v6.3.0/js/all.js','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js','https://use.fontawesome.com/releases/v6.3.0/js/all.js', 'https://cdn.jsdelivr.net/npm/sweetalert2@11'], 
+          'style-src': [SELF, INLINE, 'https://fonts.googleapis.com','https://fonts.gstatic.com','https://cdn.jsdelivr.net',],
+          'worker-src': [NONE],
+          'img-src': [SELF],
+
           'block-all-mixed-content': true,
           'font-src' : [SELF, 'https://fonts.googleapis.com','https://fonts.gstatic.com'],
           'connect-src':[SELF, 'https://dev-functions-srs.azurewebsites.net']
       }
   }));*/
+
 app.use(limiter);
 app.use(morgan('dev')); //combined o common for production
 app.use(bodyParser.urlencoded({extended:true}));
