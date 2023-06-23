@@ -167,10 +167,33 @@ input:-webkit-autofill:active{
           margin-right:15px;
           border-radius: 30px;
           font-family: 'Source Sans Pro', sans-serif;
-          width:40px;
+          width:100px;
           font-size:18px;
           text-align: center;
   
+  }
+  .setting-long-input{
+    color:lightgrey;
+          background-color:#21262d;
+          padding:7px;
+          margin-top:15px;
+          margin-bottom: 15px;
+          margin-right: 78%;
+          border-radius: 30px;
+          font-family: 'Source Sans Pro', sans-serif;
+          width:200px;
+          font-size:18px;
+
+  }
+  #cat-options-wrapper{
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  #cat-options-wrapper div{
+    flex-basis: calc(33.33% - 10px); 
+    margin: 5px;
   }
   #loading-overlay {
     position: fixed;

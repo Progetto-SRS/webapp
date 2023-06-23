@@ -13,12 +13,12 @@ const generateContent = async (prompt) => {
     const gptResponse = await openai.createCompletion({
       model: 'text-davinci-003',
       prompt: prompt,
-      max_tokens: 40,
+      max_tokens: 500,
       n: 1,
-      temperature: 0.7,
+      temperature: 0.8,
     });
 
-    const generatedText = gptResponse.choices[0].text.trim();
+    const generatedText = gptResponse.data.choices[0].text.trim();
 
     return generatedText;
   } catch (error) {

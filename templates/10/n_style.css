@@ -1,0 +1,135 @@
+body {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #455591;
+    padding: 13px;
+    border-bottom: 2px solid #969696;
+  }
+  #burger-icon{
+    margin-left: 5px;
+    margin-bottom: -4px;
+  }
+  
+  h1 {
+    font-size: 42px;
+    margin-top: 0;
+    margin-left: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #660c0ced;
+  }
+  
+  nav {
+    margin-bottom: 20px;
+    
+  }
+  nav ul{
+    border-radius: 15px;
+    background-color: #807aa15e;;
+    font-size: large;
+  }
+  span{
+    border-left: 1px solid rgb(192 192 192 / 31%);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  li {
+    display: inline-block;
+    padding: 10px 20px;
+    
+  }
+  
+  li a div{
+    background-color: #42424271;
+    color: #e4e4e4;
+    padding: 5px 10px;
+  }
+  a {
+    color: #b5c2cd;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: #9dadbb73;
+  }
+
+  
+  #content {
+    padding: 20px 50px;
+    background-color: #f5f5f5;
+    color: #1b1a1a;
+  }
+  
+  footer {
+    background-color: rgb(218, 13, 13);
+    padding: 20px;
+    text-align: center;
+    color: #e2dfdf;
+  }
+  #main-article{
+    background-image: url('https://d110erj175o600.cloudfront.net/wp-content/uploads/2018/01/fake-news_561811504.jpg.webp');
+    background-size: contain;
+    background-position: center;
+    height: 300px;
+    width: 50%;
+  }
+  #main-articles{
+    display: block;
+    width: 20%;
+    height: 300px;
+    
+  }
+  #main-articles li{
+    height: 80px;
+  }
+  .top-news li, .latest-news li{
+    background-image: url('https://d110erj175o600.cloudfront.net/wp-content/uploads/2018/01/fake-news_561811504.jpg.webp');
+    background-size: contain;
+    background-position: center;
+    width: 30%;
+    height: 180px;
+  }
+  .news {
+    margin-top: 20px;
+  }
+  
+  .news h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .news ul {
+    list-style-type: none;
+    margin-left: 0;
+  }
+  
+  .news li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    background-size: contain;
+    background-position: center;
+  }
+  
+  .news li a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .news .top-news {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  
