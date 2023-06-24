@@ -61,7 +61,7 @@ var limiter = RateLimit({
         "font-src": ["'self'", "https://fonts.googleapis.com/", "https://fonts.gstatic.com/"],
         "form-action": ["'self'"],
         //"img-src": ["'self", "http://www.w3.org/2000/svg", ".\public\img"],
-        "connect-src": ["self", "https://dev-functions-srs.azurewebsites.net/", "https://dev-app-srs.azurewebsites.net/"], //"http://localhost:8080"
+        "connect-src": ["self", "https://dev-functions-srs.azurewebsites.net/", "https://dev-app-srs.azurewebsites.net/","https://test-app-srs.azurewebsites.net/","https://test-functions-srs.azurewebsites.net/"], //"http://localhost:8080"
         },
     },
     })
