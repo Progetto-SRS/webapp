@@ -33,7 +33,7 @@ jobs:
           name: node-app
           path: .
 
-  deploy:
+  deploy-dev-env:
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -46,11 +46,33 @@ jobs:
         with:
           name: node-app
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+      - name: 'Deploy to Azure Web App in development environment'
+        id: deploy-to-webapp-dev-env
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dev-app-srs'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_33A37F9F1722496BB0F965874EA23151 }}
           package: .
+
+  deploy-test-env:
+      runs-on: ubuntu-latest
+      needs: build
+      environment:
+        name: 'Production'
+        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+      steps:
+        - name: Download artifact from build job
+          uses: actions/download-artifact@v2
+          with:
+            name: node-app
+
+        - name: 'Deploy to Azure Web App in test environment'
+          id: deploy-to-webapp-test-env
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'test-app-srs'
+            slot-name: 'Production'
+            publish-profile: ${{ secrets.AZURE_TEST_APP_SERVICE_PUBLISH_PROFILE }}
+            package: .
