@@ -79,9 +79,10 @@ h3 {
 }
 
 .project img {
-  max-width: 100%;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 650px; /* Imposta la larghezza desiderata per le immagini */
+  height: 450px; /* Imposta l'altezza desiderata per le immagini */
+  margin-right: auto; 
+  margin-left: auto;
 }
 
 .project h3 {
@@ -166,5 +167,25 @@ form button {
   width: 200px; /* Imposta la larghezza desiderata per le immagini */
   height: 200px; /* Imposta l'altezza desiderata per le immagini */
   object-fit: cover; /* Imposta il ridimensionamento delle immagini per adattarsi al contenitore */
-  margin-right: 10px; /* Aggiunge uno spazio tra le immagini */
+  margin-right: auto; 
+  margin-left: auto;
+}
+
+#ip1{
+  object-fit: cover; /* Imposta il ridimensionamento delle immagini per adattarsi al contenitore */
+  margin-right: auto; 
+  margin-left: auto;
+}
+
+.img-cont{
+  display: flex;
+  justify-content: center;
+  object-fit: fill;
+}
+
+.me-img{
+  width: 600px; /* Imposta la larghezza desiderata per le immagini */
+  height: 450px; /* Imposta l'altezza desiderata per le immagini */
+  margin-right: auto; 
+  margin-left: auto;
 }
