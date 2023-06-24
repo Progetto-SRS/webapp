@@ -60,6 +60,7 @@ async function generateSiteContent(template, settings, directoryPath){
     try{
         if (template.charAt(0) ==='1'){    //ID relativo a sito di news
             const files = await readdir(directoryPath);
+            const writePromises = [];
             for (const file of files) {
                 const fileExtension = path.extname(file);
                 const fileName = path.basename(file, fileExtension);
@@ -95,14 +96,21 @@ async function generateSiteContent(template, settings, directoryPath){
                                 articleElement.css('background-image', `url(${imgUrl})`);
                             }
                         }
-                        await writeFile(filePath, $.html());
+                        const writeFilePromise = util.promisify(fs.writeFile)(filePath, $.html());
+                        writePromises.push(writeFilePromise);
                         console.log('Sovrascrittura del file completata con successo:', filePath);  
                     } 
                 }
-                console.log('Generazione completata con successo');
-                return true;
                     
             }
+            try {
+                await Promise.all(writePromises);
+                console.log('Generazione completata con successo');
+                return true 
+              } catch (error) {
+                  console.error('Si è verificato un errore durante la sovrascrittura dei file:', error);
+                  return false
+              }
                 
         }else if (template.charAt(0) === '2') { //ID relativo a sito Blog
             const files = await readdir(directoryPath);
