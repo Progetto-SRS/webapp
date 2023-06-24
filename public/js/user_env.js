@@ -271,9 +271,9 @@ window.onload = function() {
             const settingPageLen = document.getElementById('page-len-select')
             settings.name = settingName.value 
             if(selectedCategories===""){
-                settings.categories = selectedCategories;
+                settings.categories = selectedCategories.pop();
             }else{
-                settings.categories = selectedCategories.concat(additionalCategories);  
+                settings.categories = selectedCategories.pop().concat(additionalCategories);  
             }
             settings.categories = selectedCategories.concat(additionalCategories);
             settings.nArt = settingNumArt.value
