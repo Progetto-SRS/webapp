@@ -286,7 +286,6 @@ window.onload = function() {
             }else{
                 settings.categories = selectedCategories.pop().concat(additionalCategories);  
             }
-            settings.categories = selectedCategories.concat(additionalCategories);
             settings.nArt = settingNumArt.value
             settings.pageLen = settingPageLen.value
         }
