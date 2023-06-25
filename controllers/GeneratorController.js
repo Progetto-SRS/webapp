@@ -60,7 +60,7 @@ async function generateSiteContent(template, settings, directoryPath){
     try{
         if (template.charAt(0) ==='1'){    //ID relativo a sito di news
             const nameNews = settings.name;
-            const categories = [];
+            let categories = [];
             categories = settings.categories
             const nArt = settings.nArt
             const pageLen = settings.pageLen
