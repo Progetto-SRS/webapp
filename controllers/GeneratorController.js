@@ -460,8 +460,21 @@ const generate= async(req, res, next) =>{
 
         const storageAccountName = collection.siteName
 
+        const environment = process.env.NODE_ENV || 'development';
+
+        
+
         //Creazione storageAccount
-        const azureFunctionUrl = 'https://dev-functions-srs.azurewebsites.net/api/create-account-storage';
+
+        let azureFunctionUrl;
+        if (environment === 'production') {
+            azureFunctionUrl = 'https://prod-functions-srs.azurewebsites.net/api/create-account-storage';
+        } else if (environment === 'test') {
+            azureFunctionUrl = 'https://test-functions-srs.azurewebsites.net/api/create-account-storage';
+        } else {
+            azureFunctionUrl = 'https://dev-functions-srs.azurewebsites.net/api/create-account-storage';
+        }
+        
         const requestBody = { 
             nomeSito: storageAccountName,
             gruppoRisorse: 'users-env'
@@ -485,7 +498,15 @@ const generate= async(req, res, next) =>{
 
         if(azureFunctionSuccess){
             // Creazione del container $web
-            const createContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/enable-static-website';
+            let createContainerUrl;
+            if (environment === 'production') {
+                createContainerUrl = 'https://prod-functions-srs.azurewebsites.net/api/enable-static-website';
+            } else if (environment === 'test') {
+                createContainerUrl = 'https://test-functions-srs.azurewebsites.net/api/enable-static-website';
+            } else {
+                createContainerUrl = 'https://dev-functions-srs.azurewebsites.net/api/enable-static-website';
+            }
+            
             const createContainerParams = {
                 
                 nomeSito: storageAccountName,
@@ -661,10 +682,20 @@ const removeCollection = async(req,res,next) =>{
         const containerName = '$web';
 
         // Cancellazione del container --RIMOSSA
+        const environment = process.env.NODE_ENV || 'development';
         
 
         // Cancellazione dell'account storage
-        const deleteStorageAccountUrl = 'https://dev-functions-srs.azurewebsites.net/api/delete-account-storage';
+
+        let deleteStorageAccountUrl;
+            if (environment === 'production') {
+                deleteStorageAccountUrl = 'https://prod-functions-srs.azurewebsites.net/api/delete-account-storage';
+            } else if (environment === 'test') {
+                deleteStorageAccountUrl = 'https://test-functions-srs.azurewebsites.net/api/delete-account-storage';
+            } else {
+                deleteStorageAccountUrl = 'https://dev-functions-srs.azurewebsites.net/api/delete-account-storage';
+            }
+        
         const deleteStorageAccountParams = {
             nomeSito: storageAccountName,
             gruppoRisorse: 'users-env' 

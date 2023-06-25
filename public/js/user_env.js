@@ -199,8 +199,19 @@ window.onload = function() {
                 const nomeSito = nameSite.value.trim();
                 const isValidName = /^[a-z][a-z0-9]{2,23}$/.test(nomeSito)
                 if (nomeSito.length > 0 && isValidName) {
+                    let azureFunctionUrl;
+                    if (window.location.href.startsWith('https://prod-app-srs')) {
+                        azureFunctionUrl = 'https://prod-functions-srs.azurewebsites.net/api/check-name';
+                    }else if(window.location.href.startsWith('https://test-app-srs')){
+                        azureFunctionUrl = 'https://test-functions-srs.azurewebsites.net/api/check-name';
+                    } else {
+                        azureFunctionUrl = 'https://dev-functions-srs.azurewebsites.net/api/check-name';
+                    }
+
+                    // Resto del codice
+
+                    const url = `${azureFunctionUrl}?nomeSito=${nomeSito}`;
                     
-                    const url = `https://dev-functions-srs.azurewebsites.net/api/check-name?nomeSito=${nomeSito}`;
                     fetch(url)
                         .then(response => response.text())
                         .then(data => {
