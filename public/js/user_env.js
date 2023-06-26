@@ -62,7 +62,7 @@ window.onload = function() {
         });
     }
 
-    
+
 
     async function loadCollections(){
         const sitesContainer = document.querySelector(".sites-container")
@@ -140,44 +140,37 @@ window.onload = function() {
                     }
                     
                     function disableSite() {
-                        const rmvImg = document.getElementById('rmvImg');
-                        rmvImg.src = '../img/enable.png';  // Immagine per abilitare il sito
+                        const stateImg = document.getElementById('stateImg');
+                        stateImg.src = '../img/enable.png';  // Immagine per abilitare il sito
                     }
                     
                     function enableSite() {
-                        const rmvImg = document.getElementById('rmvImg');
-                        rmvImg.src = '../img/disable.png';  // Immagine per disabilitare il sito
+                        const stateImg = document.getElementById('stateImg');
+                        stateImg.src = '../img/disable.png';  // Immagine per disabilitare il sito
                     }
-                    
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const rmvImg = document.createElement('img');
-                        rmvImg.src = '../img/disable.png';  // Immagine iniziale per disabilitare il sito
-                        rmvImg.id = 'rmvImg';
-                        rmvImg.classList.add('hidden');
-                    
-                        rmvImg.addEventListener('click', (event) => {
-                            event.stopPropagation();
-                            var collectionId = element._id.toString();
+                    const stateImg = document.createElement('img');
+                    stateImg.setAttribute('id', "stateImg")
+                    stateImg.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                        var collectionId = element._id.toString();
                         const token = getTokenFromCookie();
                         
-                            Swal.fire({
-                                title: 'Confirm',
-                                text: 'Are you sure you want to toggle the site status?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Confirm',
-                                cancelButtonText: 'Cancel',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    toggleSiteStatus(collectionId, token);
-                                }
-                            });
+                        Swal.fire({
+                            title: 'Confirm',
+                            text: 'Are you sure you want to turn on/off site status?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirm',
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                toggleSiteStatus(collectionId, token);
+                            }
                         });
-                    
-                        const body = document.body;
-                        body.appendChild(rmvImg);
                     });
                     
+                
+                    siteDiv.appendChild(stateImg)
                     siteDiv.appendChild(rmvImg)
                     siteDiv.appendChild(nameP)
                     siteDiv.appendChild(spanType)
