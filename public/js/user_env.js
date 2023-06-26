@@ -286,7 +286,10 @@ window.onload = function() {
             }else{
                 settings.categories = selectedCategories.pop().concat(additionalCategories);  
             }
-            settings.categories = selectedCategories.concat(additionalCategories);
+            if (settings.categories.length <4){
+                event.preventDefault();
+                return
+            }
             settings.nArt = settingNumArt.value
             settings.pageLen = settingPageLen.value
         }

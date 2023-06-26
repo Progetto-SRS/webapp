@@ -59,7 +59,8 @@ const writeFile = util.promisify(fs.writeFile);
 async function generateSiteContent(template, settings, directoryPath){
     try{
         if (template.charAt(0) ==='1'){    //ID relativo a sito di news
-            const nameNews = settings.name;
+            
+            let nameNews = settings.name 
             let categories = [];
             categories = settings.categories
             const nArt = settings.nArt
@@ -77,6 +78,23 @@ async function generateSiteContent(template, settings, directoryPath){
                     // Analizza il contenuto HTML 
                     const $ = cheerio.load(fileContent);
                     if (fileName === 'index') {
+                        //Assegnazione nome scelto
+                        if(nameNews ===""){
+                            nameNews = "News Website"   
+                        }
+                        const nameWebsite =$('#name-site');
+                        nameWebsite.text(nameNews)
+                        const nameWebsiteFooter = $('#name-site-foot')
+                        nameWebsiteFooter.text(nameNews)
+
+                        //Assegnazione categorie
+                        const categoryElements = $('.category')
+                        let i=0
+                        for (cat of categoryElements){
+                            cat.find('a').text(categories[i])
+                            i++
+                        }
+
                         //
                         const mainArticle = $('#main-article')
                         const generatedMainArticleName= await openai.generateContent('A title for a main news article')
