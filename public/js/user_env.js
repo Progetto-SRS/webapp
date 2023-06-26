@@ -113,8 +113,71 @@ window.onload = function() {
                             }
                           });
                       });
-                    rmvImg.classList.add("hidden")
-
+                    
+                      function toggleSiteStatus(collectionId, authenticationToken) {
+                        fetch('/api/getSiteStatus' , {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': 'Bearer ' + authenticationToken
+                            },
+                            body: JSON.stringify({ collectionId: collectionId })
+                          })
+                            
+                            .then(response => response.json())
+                            .then(data => {
+                                const siteEnabled = data.enabled;
+                    
+                                if (siteEnabled) {
+                                    disableSite();
+                                } else {
+                                    enableSite();
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Errore durante il recupero dello stato del sito dal database', error);
+                            });
+                    }
+                    
+                    function disableSite() {
+                        const rmvImg = document.getElementById('rmvImg');
+                        rmvImg.src = '../img/enable.png';  // Immagine per abilitare il sito
+                    }
+                    
+                    function enableSite() {
+                        const rmvImg = document.getElementById('rmvImg');
+                        rmvImg.src = '../img/disable.png';  // Immagine per disabilitare il sito
+                    }
+                    
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const rmvImg = document.createElement('img');
+                        rmvImg.src = '../img/disable.png';  // Immagine iniziale per disabilitare il sito
+                        rmvImg.id = 'rmvImg';
+                        rmvImg.classList.add('hidden');
+                    
+                        rmvImg.addEventListener('click', (event) => {
+                            event.stopPropagation();
+                            var collectionId = element._id.toString();
+                        const token = getTokenFromCookie();
+                        
+                            Swal.fire({
+                                title: 'Confirm',
+                                text: 'Are you sure you want to toggle the site status?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Confirm',
+                                cancelButtonText: 'Cancel',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    toggleSiteStatus(collectionId, token);
+                                }
+                            });
+                        });
+                    
+                        const body = document.body;
+                        body.appendChild(rmvImg);
+                    });
+                    
                     siteDiv.appendChild(rmvImg)
                     siteDiv.appendChild(nameP)
                     siteDiv.appendChild(spanType)
