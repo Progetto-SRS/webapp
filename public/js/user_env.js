@@ -62,6 +62,8 @@ window.onload = function() {
         });
     }
 
+    
+
     async function loadCollections(){
         const sitesContainer = document.querySelector(".sites-container")
         try {
@@ -112,6 +114,7 @@ window.onload = function() {
                           });
                       });
                     rmvImg.classList.add("hidden")
+
                     siteDiv.appendChild(rmvImg)
                     siteDiv.appendChild(nameP)
                     siteDiv.appendChild(spanType)

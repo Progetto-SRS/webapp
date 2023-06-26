@@ -14,6 +14,9 @@ const collectionSchema = new Schema({
     template:{
         type: String
     },
+    state:{
+        type: String
+    },
     settings : {
         type: Schema.Types.Mixed
     }

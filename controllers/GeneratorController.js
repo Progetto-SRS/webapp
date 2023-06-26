@@ -473,6 +473,7 @@ const generate= async(req, res, next) =>{
             siteName: req.body.siteName,
             siteType: req.body.siteType,
             template: req.body.template,
+            state: "enabled",
             settings: req.body.settings
         })
 
@@ -660,6 +661,35 @@ const loadCollections =(req,res,next) =>{
     } )
 
 }
+const getSiteStatus =async (req, res, next)=>{
+    try{
+        const token = req.headers.authorization.substring('Bearer '.length);
+        const decode = await verifyJwt(token, process.env.SECRET_KEY);
+        const collectionId = req.body.collectionId;
+        const collection = await Collection.findOne({ _id: { $eq: collectionId }, username: { $eq: decode.name } }).exec();
+
+        if (!collection) {
+            res.status(404).json({
+              message: 'Collection not found',
+            });
+            return;
+        }
+        if (collection.state==='enabled'){
+            res.status(200).json({
+                enabled: true
+            })
+        }else{
+            res.status(200).json({
+                enabled:false
+            })
+        }
+    }catch(err){
+        res.status(400).json({
+            message: 'An error occurred',
+            err
+        })
+    }
+}
 
 const loadUsername = (req,res,next) =>{
     const token = req.headers.authorization.substring('Bearer '.length);
@@ -758,5 +788,5 @@ const removeCollection = async(req,res,next) =>{
 }
 
 module.exports= {
-    generate, loadCollections, loadUsername, removeCollection
+    generate, loadCollections, loadUsername, removeCollection, getSiteStatus
 }
