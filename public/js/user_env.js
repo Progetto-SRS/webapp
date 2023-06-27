@@ -281,10 +281,10 @@ window.onload = function() {
             const settingNumArt = document.getElementById('numArticle-input')
             const settingPageLen = document.getElementById('page-len-select')
             settings.name = settingName.value 
-            if(selectedCategories===""){
-                settings.categories = selectedCategories.pop();
+            if(additionalCategories===""){
+                settings.categories = selectedCategories;
             }else{
-                settings.categories = selectedCategories.pop().concat(additionalCategories);  
+                settings.categories = selectedCategories.concat(additionalCategories);  
             }
             if (settings.categories.length <4){
                 event.preventDefault();
@@ -340,7 +340,7 @@ window.onload = function() {
              inpName.setAttribute('value', '');
 
             const categoryLbl = document.createElement('label');
-            categoryLbl.innerHTML = 'Choose the categories: ';
+            categoryLbl.innerHTML = 'Choose the categories (min. 4): ';
             const categories = ['Business', 'Sports', 'Weather', 'Tech', 'Politics', 'Economy','Entertainment', 'Health', 'Science','Culture and Art','Crime','Environment','Travel','Lifestyle','Education','Fashion', 'Food', 'Events','Music','Religion', 'Other'];
             const categoryOptionsWrapper = document.createElement('div');
             categoryOptionsWrapper.setAttribute('id', 'cat-options-wrapper')
