@@ -340,10 +340,10 @@ window.onload = function() {
             const settingNumArt = document.getElementById('numArticle-input')
             const settingPageLen = document.getElementById('page-len-select')
             settings.name = settingName.value 
-            if(selectedCategories===""){
-                settings.categories = selectedCategories.pop();
+            if(additionalCategories===""){
+                settings.categories = selectedCategories;
             }else{
-                settings.categories = selectedCategories.pop().concat(additionalCategories);  
+                settings.categories = selectedCategories.concat(additionalCategories);  
             }
             if (settings.categories.length <4){
                 event.preventDefault();
