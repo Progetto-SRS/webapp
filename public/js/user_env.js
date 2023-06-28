@@ -101,7 +101,9 @@ window.onload = function() {
             // Gestisci la risposta del backend
             if (response.ok) {
                 // La richiesta è stata elaborata correttamente
-                stateImg.src = '../img/disabled.png';
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 300); 
             } else {
                 // Si è verificato un errore nella richiesta
                 console.error('Errore durante la disabilitazione del sito:', response.status, response.statusText);
@@ -127,7 +129,11 @@ window.onload = function() {
             // Gestisci la risposta del backend
             if (response.ok) {
                 // La richiesta è stata elaborata correttamente
-                stateImg.src = '../img/enabled.png'; 
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 500); 
+                
+
             } else {
                 // Si è verificato un errore nella richiesta
                 console.error('Errore durante la disabilitazione del sito:', response.status, response.statusText);
