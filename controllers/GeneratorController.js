@@ -90,8 +90,8 @@ async function generateSiteContent(template, settings, directoryPath){
                         //Assegnazione categorie
                         const categoryElements = $('.category')
                         let i=0
-                        for (cat of categoryElements){
-                            cat.find('a').text(categories[i])
+                        for (let cat of categoryElements){
+                            $(cat).find('a').text(categories[i])
                             i++
                         }
 
