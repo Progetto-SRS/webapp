@@ -787,6 +787,130 @@ const removeCollection = async(req,res,next) =>{
     }
 }
 
+const changeSiteStatus = async(req,res,next)=>{
+    try{
+        const token = req.headers.authorization.substring('Bearer '.length);
+        const decode = await verifyJwt(token, process.env.SECRET_KEY);
+        const collectionId = req.body.collectionId;
+        const collection = await Collection.findOne({ _id: { $eq: collectionId }, username: { $eq: decode.name } }).exec();
+
+        if (!collection) {
+            res.status(404).json({
+              message: 'Collection not found',
+            });
+            return;
+        }
+
+        const storageAccountName = collection.siteName;
+       
+        const environment = process.env.NODE_ENV || 'development';
+        
+
+        // Turn on/off static website
+        if(collection.state ==="disabled"){
+            let enableStaticWebsiteUrl;
+                if (environment === 'production') {
+                    enableStaticWebsiteUrl = 'https://prod-functions-srs.azurewebsites.net/api/enable-static-website';
+                } else if (environment === 'test') {
+                    enableStaticWebsiteUrl = 'https://test-functions-srs.azurewebsites.net/api/enable-static-website';
+                } else {
+                    enableStaticWebsiteUrl = 'https://dev-functions-srs.azurewebsites.net/api/enable-static-website';
+                }
+            
+            const enableStaticWebsiteParams = {
+                nomeSito: storageAccountName
+            };
+
+            let enableStaticWebsiteSuccess = false;
+            try {
+                const enableStaticWebsiteResponse = await axios.post(enableStaticWebsiteUrl, enableStaticWebsiteParams);
+
+                if (enableStaticWebsiteResponse.status === 200 && enableStaticWebsiteResponse.data === 'SUCCESSO') {
+                    console.log('Richiesta alla Azure Function per abilitazione sito web riuscita');
+                    enableStaticWebsiteSuccess = true;
+                } else {
+                    console.log('Richiesta alla Azure Function per abilitazione sito web non riuscita');
+                    res.status(500).json({
+                        message: 'An error occurred in Azure Function (enable static website)',
+                    });
+                    return;
+                }
+            } catch (error) {
+                console.error('Si è verificato un errore durante la richiesta alla Azure Function per abilitare il sito web', error);
+                res.status(500).json({
+                    message: 'An error occurred in Azure Function (enable static website)',
+                });
+                return;
+            }
+
+            if (enableStaticWebsiteSuccess) {
+            // Rimozione della collezione dal database
+            await Collection.findOneAndUpdate(
+                { _id: { $eq: collectionId }, username: { $eq: decode.name } },
+                { $set: { state: 'enabled' } }
+              ).exec();
+
+                res.status(200).json({
+                    message: 'Collection state updated successfully',
+                });
+            }
+        }else if(collection.state ==="enabled"){
+            let disableStaticWebsiteUrl;
+                if (environment === 'production') {
+                    disableStaticWebsiteUrl = 'https://prod-functions-srs.azurewebsites.net/api/disable-static-website';
+                } else if (environment === 'test') {
+                    disableStaticWebsiteUrl = 'https://test-functions-srs.azurewebsites.net/api/disable-static-website';
+                } else {
+                    disableStaticWebsiteUrl = 'https://dev-functions-srs.azurewebsites.net/api/disable-static-website';
+                }
+            
+            const disableStaticWebsiteParams = {
+                nomeSito: storageAccountName
+            };
+
+            let disableStaticWebsiteSuccess = false;
+            try {
+                const disableStaticWebsiteResponse = await axios.post(disableStaticWebsiteUrl, disableStaticWebsiteParams);
+
+                if (disableStaticWebsiteResponse.status === 200 && disableStaticWebsiteResponse.data === 'SUCCESSO') {
+                    console.log('Richiesta alla Azure Function per disabilitazione sito web riuscita');
+                    disableStaticWebsiteSuccess = true;
+                } else {
+                    console.log('Richiesta alla Azure Function per disabilitazione sito web non riuscita');
+                    res.status(500).json({
+                        message: 'An error occurred in Azure Function (disable static website)',
+                    });
+                    return;
+                }
+            } catch (error) {
+                console.error('Si è verificato un errore durante la richiesta alla Azure Function per disabilitare il sito web', error);
+                res.status(500).json({
+                    message: 'An error occurred in Azure Function (disable static website)',
+                });
+                return;
+            }
+
+            if (disableStaticWebsiteSuccess) {
+            // update stato nel database
+            await Collection.findOneAndUpdate(
+                { _id: { $eq: collectionId }, username: { $eq: decode.name } },
+                { $set: { state: 'disabled' } }
+              ).exec();
+
+                res.status(200).json({
+                    message: 'Collection state updated successfully',
+                });
+            }
+        }
+    }catch(err){
+        res.status(400).json({
+            message: 'An error occurred',
+            err
+        })
+    }
+
+}
+
 module.exports= {
-    generate, loadCollections, loadUsername, removeCollection, getSiteStatus
+    generate, loadCollections, loadUsername, removeCollection, getSiteStatus,changeSiteStatus
 }
