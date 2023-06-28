@@ -7,4 +7,5 @@ router.post('/load-collections', GeneratorController.loadCollections)
 router.post('/load-username',GeneratorController.loadUsername)
 router.post('/remove-collection', GeneratorController.removeCollection)
 router.post('/getSiteStatus', GeneratorController.getSiteStatus)
+router.post('/changeSiteStatus', GeneratorController.changeSiteStatus)
 module.exports = router

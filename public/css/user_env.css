@@ -42,6 +42,13 @@
     float: right;
 
   }
+  #stateImg{
+    width: 34px; 
+    height:34px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
   .temp-name{
           padding-left: 10px;
           color:#c6cdd5;

@@ -62,8 +62,82 @@ window.onload = function() {
         });
     }
 
+    function toggleSiteStatus(collectionId, authenticationToken) {
+        fetch('/api/getSiteStatus' , {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + authenticationToken
+            },
+            body: JSON.stringify({ collectionId: collectionId })
+          })
+            
+            .then(response => response.json())
+            .then(data => {
+                const siteEnabled = data.enabled;
+    
+                if (siteEnabled) {
+                    disableSite(collectionId, authenticationToken);
+                } else {
+                    enableSite(collectionId, authenticationToken);
+                }
+            })
+            .catch(error => {
+                console.error('Errore durante il recupero dello stato del sito dal database', error);
+            });
+    }
+    
+    function disableSite(collectionId, authenticationToken) {
+        const stateImg = document.getElementById('stateImg');
 
+        fetch('/api/changeSiteStatus', {
+            method: 'POST',
+            headers:  {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authenticationToken},
+            body: JSON.stringify({ collectionId: collectionId })
+        })
+        .then(response => {
+            // Gestisci la risposta del backend
+            if (response.ok) {
+                // La richiesta è stata elaborata correttamente
+                stateImg.src = '../img/disabled.png';
+            } else {
+                // Si è verificato un errore nella richiesta
+                console.error('Errore durante la disabilitazione del sito:', response.status, response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore durante la richiesta:', error);
+        });
+        
+    }
+        
+    function enableSite(collectionId, authenticationToken) {
+        const stateImg = document.getElementById('stateImg');
 
+        fetch('/api/changeSiteStatus', {
+            method: 'POST',
+            headers:  {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authenticationToken},
+            body: JSON.stringify({ collectionId: collectionId })
+        })
+        .then(response => {
+            // Gestisci la risposta del backend
+            if (response.ok) {
+                // La richiesta è stata elaborata correttamente
+                stateImg.src = '../img/enabled.png'; 
+            } else {
+                // Si è verificato un errore nella richiesta
+                console.error('Errore durante la disabilitazione del sito:', response.status, response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore durante la richiesta:', error);
+        });
+        
+    }
     async function loadCollections(){
         const sitesContainer = document.querySelector(".sites-container")
         try {
@@ -113,42 +187,32 @@ window.onload = function() {
                             }
                           });
                       });
+                      rmvImg.classList.add("hidden")
                     
-                      function toggleSiteStatus(collectionId, authenticationToken) {
-                        fetch('/api/getSiteStatus' , {
-                            method: 'POST',
-                            headers: {
-                              'Content-Type': 'application/json',
-                              'Authorization': 'Bearer ' + authenticationToken
-                            },
-                            body: JSON.stringify({ collectionId: collectionId })
-                          })
-                            
-                            .then(response => response.json())
-                            .then(data => {
-                                const siteEnabled = data.enabled;
                     
-                                if (siteEnabled) {
-                                    disableSite();
-                                } else {
-                                    enableSite();
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Errore durante il recupero dello stato del sito dal database', error);
-                            });
-                    }
-                    
-                    function disableSite() {
-                        const stateImg = document.getElementById('stateImg');
-                        stateImg.src = '../img/enable.png';  // Immagine per abilitare il sito
-                    }
-                    
-                    function enableSite() {
-                        const stateImg = document.getElementById('stateImg');
-                        stateImg.src = '../img/disable.png';  // Immagine per disabilitare il sito
-                    }
                     const stateImg = document.createElement('img');
+                    fetch('/api/getSiteStatus' , {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer ' + getTokenFromCookie()
+                        },
+                        body: JSON.stringify({ collectionId: element._id.toString() })
+                      })
+                        
+                        .then(response => response.json())
+                        .then(data => {
+                            const siteEnabled = data.enabled;
+                
+                            if (siteEnabled) {
+                                stateImg.src="../img/enabled.png"
+                            } else {
+                                stateImg.src ="../img/disabled.png"
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Errore durante il recupero dello stato del sito dal database', error);
+                        });
                     stateImg.setAttribute('id', "stateImg")
                     stateImg.addEventListener('click', (event) => {
                         event.stopPropagation();
