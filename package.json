@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/identity": "^3.2.2",
-    "@azure/msal-node": "^1.17.3",
+    "@azure/msal-node": "^2.0.2",
     "@azure/storage-blob": "^12.14.0",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
